@@ -1,167 +1,124 @@
 import { useState, useMemo } from 'react';
-import { TrendingDown, DollarSign } from 'lucide-react';
 
-const AVERAGE_CASE_VALUE = 4500;
+const LTV = 3500;
 
-function getConversionRate(responseMinutes: number): number {
-  if (responseMinutes <= 1) return 0.55;
-  if (responseMinutes <= 5) return 0.42;
-  if (responseMinutes <= 30) return 0.28;
-  if (responseMinutes <= 60) return 0.18;
-  if (responseMinutes <= 240) return 0.10;
-  return 0.05;
+function calcAnnualExposure(enquiries: number, responseHours: number): number {
+  const baseConversionRate = 0.22;
+  const decayFactor = 1 - Math.min(0.88, responseHours * 0.034 + (responseHours > 4 ? (responseHours - 4) * 0.018 : 0));
+  const lostConversionRate = baseConversionRate - baseConversionRate * decayFactor;
+  return Math.round(enquiries * lostConversionRate * LTV * 12);
 }
 
-function formatCurrency(value: number): string {
-  return new Intl.NumberFormat('en-US', {
+function formatGBP(value: number): string {
+  return new Intl.NumberFormat('en-GB', {
     style: 'currency',
-    currency: 'USD',
+    currency: 'GBP',
     maximumFractionDigits: 0,
   }).format(value);
 }
 
-export default function Calculator() {
-  const [monthlyInquiries, setMonthlyInquiries] = useState(40);
-  const [responseTime, setResponseTime] = useState(60);
+interface SliderProps {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  displayValue: string;
+  onChange: (v: number) => void;
+}
 
-  const { annualRevenueLost, currentConversions, optimalConversions } = useMemo(() => {
-    const currentRate = getConversionRate(responseTime);
-    const optimalRate = getConversionRate(1);
-    const currentConversions = Math.round(monthlyInquiries * currentRate);
-    const optimalConversions = Math.round(monthlyInquiries * optimalRate);
-    const monthlyLost = (optimalConversions - currentConversions) * AVERAGE_CASE_VALUE;
-    return {
-      annualRevenueLost: monthlyLost * 12,
-      currentConversions,
-      optimalConversions,
-    };
-  }, [monthlyInquiries, responseTime]);
+function Slider({ label, value, min, max, step, displayValue, onChange }: SliderProps) {
+  const pct = ((value - min) / (max - min)) * 100;
 
   return (
-    <section id="calculator" className="bg-slate-50 border-b border-slate-100 py-20 md:py-28">
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <span className="text-sm font-medium text-slate-500 uppercase tracking-widest">{label}</span>
+        <span className="text-2xl font-bold text-slate-900 font-serif tabular-nums">{displayValue}</span>
+      </div>
+      <div className="relative">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-full h-1 rounded-full outline-none cursor-pointer appearance-none"
+          style={{
+            background: `linear-gradient(to right, #0f172a ${pct}%, #e2e8f0 ${pct}%)`,
+            accentColor: '#0f172a',
+          }}
+        />
+      </div>
+      <div className="flex justify-between mt-2">
+        <span className="text-xs text-slate-400">{min}</span>
+        <span className="text-xs text-slate-400">{max}</span>
+      </div>
+    </div>
+  );
+}
+
+export default function Calculator() {
+  const [enquiries, setEnquiries] = useState(40);
+  const [responseHours, setResponseHours] = useState(12);
+
+  const annualExposure = useMemo(
+    () => calcAnnualExposure(enquiries, responseHours),
+    [enquiries, responseHours]
+  );
+
+  return (
+    <section id="calculator" className="bg-slate-50 py-32 border-b border-slate-100">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="max-w-2xl mb-12">
-          <p className="text-blue-600 text-sm font-semibold tracking-wide uppercase mb-3">
-            Revenue Diagnostic
-          </p>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
-            How much is slow response costing you?
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold font-serif text-slate-900 tracking-tight">
+            Quantify Your Pipeline Hemorrhage
           </h2>
-          <p className="text-slate-500 text-lg">
-            Adjust the sliders to see your estimated annual revenue loss based on current response time benchmarks.
+          <p className="text-lg text-slate-600 mt-4 leading-relaxed">
+            Discover exactly how much revenue is leaking to competitors due to slow lead response.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm">
-            <div className="space-y-10">
-              <div>
-                <div className="flex justify-between items-baseline mb-3">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Monthly High-Ticket Inquiries
-                  </label>
-                  <span className="text-2xl font-bold text-slate-900">{monthlyInquiries}</span>
-                </div>
-                <input
-                  type="range"
-                  min={5}
-                  max={200}
-                  step={5}
-                  value={monthlyInquiries}
-                  onChange={(e) => setMonthlyInquiries(Number(e.target.value))}
-                  className="slider-track w-full"
-                  style={{
-                    background: `linear-gradient(to right, #2563eb ${((monthlyInquiries - 5) / 195) * 100}%, #e2e8f0 ${((monthlyInquiries - 5) / 195) * 100}%)`,
-                  }}
-                />
-                <div className="flex justify-between text-xs text-slate-400 mt-1.5">
-                  <span>5</span>
-                  <span>200</span>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-baseline mb-3">
-                  <label className="text-sm font-semibold text-slate-700">
-                    Average Response Time
-                  </label>
-                  <span className="text-2xl font-bold text-slate-900">
-                    {responseTime < 60 ? `${responseTime}m` : `${Math.round(responseTime / 60)}h`}
-                  </span>
-                </div>
-                <input
-                  type="range"
-                  min={1}
-                  max={480}
-                  step={1}
-                  value={responseTime}
-                  onChange={(e) => setResponseTime(Number(e.target.value))}
-                  className="slider-track w-full"
-                  style={{
-                    background: `linear-gradient(to right, #2563eb ${((responseTime - 1) / 479) * 100}%, #e2e8f0 ${((responseTime - 1) / 479) * 100}%)`,
-                  }}
-                />
-                <div className="flex justify-between text-xs text-slate-400 mt-1.5">
-                  <span>1 min</span>
-                  <span>8 hrs</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-slate-100 grid grid-cols-2 gap-4">
-              <div className="bg-slate-50 rounded-lg p-4">
-                <p className="text-xs text-slate-500 mb-1">Current Monthly Closes</p>
-                <p className="text-2xl font-bold text-slate-700">{currentConversions}</p>
-              </div>
-              <div className="bg-blue-50 rounded-lg p-4">
-                <p className="text-xs text-blue-600 mb-1">Optimal Monthly Closes</p>
-                <p className="text-2xl font-bold text-blue-700">{optimalConversions}</p>
-              </div>
-            </div>
+        <div className="max-w-4xl mx-auto bg-white rounded-[2rem] shadow-xl border border-slate-200 p-12 mt-16">
+          <div className="grid md:grid-cols-2 gap-12">
+            <Slider
+              label="Monthly High-Ticket Enquiries"
+              value={enquiries}
+              min={10}
+              max={200}
+              step={5}
+              displayValue={`${enquiries} Enquiries`}
+              onChange={setEnquiries}
+            />
+            <Slider
+              label="Average Response Time"
+              value={responseHours}
+              min={1}
+              max={48}
+              step={1}
+              displayValue={`${responseHours} ${responseHours === 1 ? 'Hour' : 'Hours'}`}
+              onChange={setResponseHours}
+            />
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm flex flex-col">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
-                <TrendingDown className="w-5 h-5 text-red-500" />
-              </div>
-              <div>
-                <p className="text-sm font-medium text-slate-500">Estimated Annual Revenue Lost</p>
-                <p className="text-xs text-slate-400">Based on $4,500 avg case value</p>
-              </div>
-            </div>
+          <div className="mt-12 pt-10 border-t border-slate-100 text-center">
+            <p className="text-sm font-bold uppercase tracking-widest text-slate-500">
+              Annual Revenue Exposure
+            </p>
+            <p className="text-8xl font-bold font-serif text-slate-900 mt-4 leading-none tabular-nums">
+              {formatGBP(annualExposure)}
+            </p>
+            <p className="text-slate-400 text-base mt-5 max-w-sm mx-auto leading-relaxed">
+              In recoverable Implant &amp; Invisalign revenue lost to competitors each year.
+            </p>
 
-            <div className="flex-1 flex flex-col items-center justify-center py-8">
-              <div
-                className={`text-5xl md:text-6xl font-bold tracking-tight mb-2 transition-colors duration-300 ${
-                  annualRevenueLost > 100000
-                    ? 'text-red-600'
-                    : annualRevenueLost > 50000
-                    ? 'text-orange-500'
-                    : 'text-slate-700'
-                }`}
-              >
-                {formatCurrency(annualRevenueLost)}
-              </div>
-              <p className="text-slate-400 text-sm text-center">
-                in missed Implant &amp; Invisalign revenue per year
-              </p>
-            </div>
-
-            <div className="mt-auto pt-6 border-t border-slate-100">
-              <div className="flex items-start gap-3 bg-blue-50 rounded-lg p-4">
-                <DollarSign className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
-                <p className="text-sm text-blue-800 leading-relaxed">
-                  Our system routes leads in under 60 seconds — recovering most of this gap within 30 days.
-                </p>
-              </div>
-              <a
-                href="#contact"
-                className="mt-4 w-full inline-flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-150"
-              >
-                Fix This — Request a Free Audit
-              </a>
-            </div>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 mt-8 bg-slate-900 hover:bg-slate-800 text-white font-semibold px-8 py-4 rounded-xl transition-colors duration-150"
+            >
+              Recover This Revenue — Book Your Audit
+            </a>
           </div>
         </div>
       </div>
