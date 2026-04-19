@@ -1,0 +1,34 @@
+[
+  {
+    "id": "ai-chat",
+    "name": "AI Chat Support",
+    "description": "AI-powered 24/7 customer support",
+    "price": 49,
+    "category": "support",
+    "enabled": true
+  },
+  {
+    "id": "crm",
+    "name": "CRM Integration",
+    "description": "Real-time data sync across systems",
+    "price": 79,
+    "category": "crm",
+    "enabled": true
+  },
+  {
+    "id": "workflow",
+    "name": "Workflow Automation",
+    "description": "Automate repetitive business processes",
+    "price": 99,
+    "category": "automation",
+    "enabled": true
+  },
+  {
+    "id": "appointments",
+    "name": "Appointment Automation",
+    "description": "Smart scheduling with AI",
+    "price": 39,
+    "category": "scheduling",
+    "enabled": true
+  }
+]
