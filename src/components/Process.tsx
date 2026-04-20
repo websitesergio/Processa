@@ -54,7 +54,7 @@ export default function Process() {
       style={{
         background: '#ffffff',
         borderBottom: '1px solid rgba(15,23,42,0.08)',
-        padding: 'clamp(5rem,10vw,9rem) 0',
+        padding: 'clamp(8rem, 12vw, 10rem) 0',
       }}
     >
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }}>
@@ -86,7 +86,7 @@ export default function Process() {
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontWeight: 700,
-              fontSize: 'clamp(2.2rem, 5vw, 3.75rem)',
+              fontSize: 'clamp(3rem, 5vw, 3.75rem)',
               lineHeight: 1.05,
               letterSpacing: '-0.04em',
               color: '#0f172a',

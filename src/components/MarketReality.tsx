@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useInView } from '../lib/useInView';
 
 const QUERIES = [
@@ -363,7 +364,7 @@ export default function MarketReality() {
               fontFamily: 'Inter, system-ui, sans-serif',
               fontWeight: 300,
               lineHeight: 1.9,
-              color: 'rgba(15,23,42,0.5)',
+              color: '#475569',
               maxWidth: '52ch',
             }}
           >
@@ -475,7 +476,7 @@ export default function MarketReality() {
                       fontFamily: 'Inter, system-ui, sans-serif',
                       fontWeight: 300,
                       lineHeight: 1.9,
-                      color: 'rgba(15,23,42,0.55)',
+                      color: '#475569',
                     }}
                   >
                     {item.body}
@@ -484,8 +485,8 @@ export default function MarketReality() {
               ))}
 
               <div>
-                <a
-                  href="#contact"
+                <Link
+                  to="/access"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -496,6 +497,7 @@ export default function MarketReality() {
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase' as const,
                     color: '#1d4ed8',
+                    textDecoration: 'none',
                     transition: 'color 0.15s ease',
                   }}
                   onMouseEnter={(e) => { e.currentTarget.style.color = '#1e40af'; }}
@@ -505,7 +507,7 @@ export default function MarketReality() {
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2.5 6H9.5M6.5 3L9.5 6L6.5 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -570,7 +572,7 @@ export default function MarketReality() {
                     fontFamily: 'Inter, system-ui, sans-serif',
                     fontWeight: 300,
                     lineHeight: 1.95,
-                    color: 'rgba(15,23,42,0.55)',
+                    color: '#475569',
                     marginBottom: '16px',
                   }}
                 >
