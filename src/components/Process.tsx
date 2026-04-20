@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useInView } from '../lib/useInView';
 
 const PHASES = [
@@ -232,8 +233,8 @@ export default function Process() {
 
                 {large && (
                   <div style={{ marginTop: '2.5rem' }}>
-                    <a
-                      href="#contact"
+                    <Link
+                      to="/access"
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -261,7 +262,7 @@ export default function Process() {
                       }}
                     >
                       Begin Qualification
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>

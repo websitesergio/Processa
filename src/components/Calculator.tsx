@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { useInView } from '../lib/useInView';
 import { useAuditor, formatGBP } from '../lib/AuditorContext';
 
@@ -345,8 +346,8 @@ export default function Calculator() {
                 In recoverable Implant &amp; Invisalign revenue lost to competitors each year.
               </p>
 
-              <a
-                href="#contact"
+              <Link
+                to="/access"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -374,7 +375,7 @@ export default function Calculator() {
                 }}
               >
                 Recover This Revenue — Book Your Audit
-              </a>
+              </Link>
             </div>
           </div>
         </div>

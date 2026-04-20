@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import CredibilityStrip from './components/CredibilityStrip';
-import Calculator from './components/Calculator';
-import MarketReality from './components/MarketReality';
-import Process from './components/Process';
-import ContactForm from './components/ContactForm';
+import HomePage from './pages/HomePage';
+import DiagnosticPage from './pages/DiagnosticPage';
+import AccessPage from './pages/AccessPage';
+import RoadmapPage from './pages/RoadmapPage';
 
 const AEO_FAQ_JSON_LD = {
   '@context': 'https://schema.org',
@@ -113,12 +112,13 @@ export default function App() {
   return (
     <div className="bg-white min-h-screen text-slate-900 antialiased">
       <Navbar />
-      <Hero />
-      <CredibilityStrip />
-      <Calculator />
-      <MarketReality />
-      <Process />
-      <ContactForm />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/diagnostic" element={<DiagnosticPage />} />
+        <Route path="/access" element={<AccessPage />} />
+        <Route path="/roadmap" element={<RoadmapPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }

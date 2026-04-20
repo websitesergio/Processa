@@ -1,4 +1,9 @@
+import { Link, useLocation } from 'react-router-dom';
+
 export default function Navbar() {
+  const location = useLocation();
+  const onHome = location.pathname === '/';
+
   return (
     <header
       style={{
@@ -22,8 +27,8 @@ export default function Navbar() {
           justifyContent: 'space-between',
         }}
       >
-        <a
-          href="#"
+        <Link
+          to="/"
           style={{
             fontFamily: "'Playfair Display', Georgia, serif",
             fontStyle: 'italic',
@@ -35,33 +40,57 @@ export default function Navbar() {
           }}
         >
           Processa
-        </a>
+        </Link>
 
-        <a
-          href="#contact"
-          style={{
-            fontFamily: 'Inter, system-ui, sans-serif',
-            fontSize: '11px',
-            fontWeight: 600,
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase' as const,
-            color: '#0f172a',
-            textDecoration: 'none',
-            borderBottom: '1px solid rgba(15,23,42,0.25)',
-            paddingBottom: '2px',
-            transition: 'border-color 0.15s ease, color 0.15s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = '#0f172a';
-            e.currentTarget.style.color = '#0f172a';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(15,23,42,0.25)';
-          }}
-        >
-          Apply for Strategy Audit
-        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+          {onHome && (
+            <>
+              <Link
+                to="/diagnostic"
+                style={navLinkStyle}
+              >
+                Diagnostic
+              </Link>
+              <Link
+                to="/roadmap"
+                style={navLinkStyle}
+              >
+                Roadmap
+              </Link>
+            </>
+          )}
+          <Link
+            to="/access"
+            style={{
+              fontFamily: 'Inter, system-ui, sans-serif',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase' as const,
+              color: '#0f172a',
+              textDecoration: 'none',
+              borderBottom: '1px solid rgba(15,23,42,0.25)',
+              paddingBottom: '2px',
+              transition: 'border-color 0.15s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.borderColor = '#0f172a'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(15,23,42,0.25)'; }}
+          >
+            Apply for Strategy Audit
+          </Link>
+        </div>
       </nav>
     </header>
   );
 }
+
+const navLinkStyle: React.CSSProperties = {
+  fontFamily: 'Inter, system-ui, sans-serif',
+  fontSize: '11px',
+  fontWeight: 500,
+  letterSpacing: '0.18em',
+  textTransform: 'uppercase',
+  color: 'rgba(15,23,42,0.65)',
+  textDecoration: 'none',
+  transition: 'color 0.15s ease',
+};
