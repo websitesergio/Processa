@@ -33,7 +33,7 @@ export default function Hero() {
         style={{
           maxWidth: '1100px',
           margin: '0 auto',
-          padding: 'clamp(5rem,12vw,9rem) 2rem',
+          padding: 'clamp(4rem,12vw,9rem) clamp(1rem, 5vw, 2rem)',
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
@@ -63,13 +63,16 @@ export default function Hero() {
             ...enter(2),
             fontFamily: "'Playfair Display', Georgia, serif",
             fontWeight: 700,
-            fontSize: 'clamp(2.25rem, 7vw, 6.5rem)',
-            lineHeight: 1.05,
-            letterSpacing: '-0.04em',
+            fontSize: 'clamp(2rem, 7vw, 6.5rem)',
+            lineHeight: 1.08,
+            letterSpacing: '-0.03em',
             color: '#0f172a',
             maxWidth: '16ch',
             marginBottom: '2rem',
             fontFeatureSettings: "'liga' 1, 'kern' 1",
+            wordBreak: 'break-word' as const,
+            overflowWrap: 'break-word' as const,
+            hyphens: 'auto' as const,
           }}
         >
           Quantify Your Revenue Haemorrhage.

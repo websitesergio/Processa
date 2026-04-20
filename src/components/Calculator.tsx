@@ -163,7 +163,7 @@ export default function Calculator() {
         padding: 'clamp(8rem, 12vw, 10rem) 0',
       }}
     >
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
 
         {/* Section header */}
         <div

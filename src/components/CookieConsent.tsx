@@ -33,11 +33,11 @@ export default function CookieConsent() {
       aria-label="Cookie consent"
       style={{
         position: 'fixed',
-        bottom: '1.5rem',
+        bottom: 'max(1.25rem, env(safe-area-inset-bottom, 1.25rem))',
         left: '50%',
         transform: 'translateX(-50%)',
-        zIndex: 200,
-        width: 'min(calc(100vw - 3rem), 640px)',
+        zIndex: 9999,
+        width: 'min(calc(100vw - 2rem), 560px)',
         background: 'rgba(255, 255, 255, 0.88)',
         backdropFilter: 'blur(28px)',
         WebkitBackdropFilter: 'blur(28px)',

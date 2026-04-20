@@ -96,7 +96,7 @@ export default function CredibilityStrip() {
         padding: 'clamp(3.5rem, 7vw, 5.5rem) 0',
       }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
         <div
           style={{
             display: 'grid',
