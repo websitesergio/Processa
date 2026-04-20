@@ -1,82 +1,197 @@
-import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { useState, useCallback, useEffect } from 'react';
+import { Loader2, X } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useInView } from '../lib/useInView';
 import { useAuditor, formatGBP } from '../lib/AuditorContext';
 
+// ─── Validation ───────────────────────────────────────────────────────────────
+
+const EMAIL_RE = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+
+type FieldRules = {
+  minLen?: number;
+  requireSpace?: boolean;
+  isEmail?: boolean;
+  minNumber?: number;
+};
+
+function validate(value: string, rules: FieldRules): string | null {
+  const v = value.trim();
+  if (rules.minLen && v.length < rules.minLen) return `Min ${rules.minLen} characters`;
+  if (rules.requireSpace && !v.includes(' ')) return 'First & last name required';
+  if (rules.isEmail && !EMAIL_RE.test(v)) return 'Invalid email address';
+  if (rules.minNumber !== undefined && (v === '' || Number(v) <= rules.minNumber)) return 'Required';
+  return null;
+}
+
 type FormState = 'idle' | 'loading' | 'success';
 
-const inputBase: React.CSSProperties = {
-  width: '100%',
-  background: 'rgba(255,255,255,0.05)',
-  border: '1px solid rgba(255,255,255,0.1)',
-  borderRadius: '12px',
-  padding: '16px 20px',
-  color: '#F5F2EC',
-  fontFamily: 'Inter, system-ui, sans-serif',
-  fontSize: '14px',
-  fontWeight: 300,
-  outline: 'none',
-  transition: 'border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease',
-  marginBottom: '12px',
-};
+// ─── Shared input style helpers ───────────────────────────────────────────────
 
-const inputFocus: React.CSSProperties = {
-  borderColor: 'rgba(255,255,255,0.25)',
-  background: 'rgba(255,255,255,0.08)',
-  boxShadow: '0 0 0 3px rgba(255,255,255,0.04)',
-};
+function fieldStyle(error: string | null, touched: boolean): React.CSSProperties {
+  const hasError = touched && error !== null;
+  return {
+    width: '100%',
+    background: 'rgba(255,255,255,0.05)',
+    border: `1px solid ${hasError ? 'rgba(239,68,68,0.6)' : 'rgba(255,255,255,0.1)'}`,
+    borderRadius: '12px',
+    padding: '16px 20px',
+    color: '#F5F2EC',
+    fontFamily: 'Inter, system-ui, sans-serif',
+    fontSize: '14px',
+    fontWeight: 300,
+    outline: 'none',
+    transition: 'border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease',
+  };
+}
 
-function Field({
-  type, required, placeholder, value, onChange, min,
+// ─── Field wrapper with error label ──────────────────────────────────────────
+
+function ValidatedField({
+  label,
+  error,
+  touched,
+  children,
 }: {
-  type: string; required?: boolean; placeholder: string;
-  value: string; onChange: (v: string) => void; min?: string;
+  label?: string;
+  error: string | null;
+  touched: boolean;
+  children: React.ReactNode;
 }) {
-  const [focused, setFocused] = useState(false);
   return (
-    <input
-      type={type}
-      required={required}
-      placeholder={placeholder}
-      value={value}
-      min={min}
-      onChange={(e) => onChange(e.target.value)}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-      style={{ ...inputBase, ...(focused ? inputFocus : {}) }}
-    />
+    <div style={{ position: 'relative', marginBottom: '12px' }}>
+      {children}
+      {touched && error && (
+        <p
+          style={{
+            position: 'absolute',
+            bottom: '6px',
+            right: '14px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontSize: '9px',
+            fontWeight: 500,
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'rgba(239,68,68,0.8)',
+            pointerEvents: 'none',
+          }}
+        >
+          {error}
+        </p>
+      )}
+      {label && <span style={{ display: 'none' }}>{label}</span>}
+    </div>
   );
 }
+
+// ─── Inline Toast ─────────────────────────────────────────────────────────────
+
+function Toast({ message, onClose }: { message: string; onClose: () => void }) {
+  useEffect(() => {
+    const t = setTimeout(onClose, 4500);
+    return () => clearTimeout(t);
+  }, [onClose]);
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        bottom: '2rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 100,
+        background: '#0f172a',
+        border: '1px solid rgba(239,68,68,0.4)',
+        borderRadius: '10px',
+        padding: '14px 20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+        maxWidth: '420px',
+        width: 'calc(100vw - 2rem)',
+        animation: 'slideInUp 0.35s cubic-bezier(0.16,1,0.3,1) both',
+      }}
+    >
+      <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '13px', fontWeight: 400, color: '#F5F2EC', flex: 1, lineHeight: 1.5 }}>
+        {message}
+      </p>
+      <button
+        type="button"
+        onClick={onClose}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(245,242,236,0.4)', padding: '2px', flexShrink: 0 }}
+      >
+        <X size={14} />
+      </button>
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function ContactForm() {
   const [fullName, setFullName] = useState('');
   const [clinicName, setClinicName] = useState('');
   const [monthlyEnquiries, setMonthlyEnquiries] = useState('');
   const [email, setEmail] = useState('');
+  const [challenge, setChallenge] = useState('');
   const [formState, setFormState] = useState<FormState>('idle');
+  const [toast, setToast] = useState<string | null>(null);
+
+  // Track which fields have been touched (blurred at least once)
+  const [touched, setTouched] = useState({
+    fullName: false,
+    clinicName: false,
+    monthlyEnquiries: false,
+    email: false,
+    challenge: false,
+  });
+
   const [headerRef, headerVisible] = useInView<HTMLDivElement>({ threshold: 0.2 });
   const [formRef, formVisible] = useInView<HTMLDivElement>({ threshold: 0.1 });
   const { state: auditState } = useAuditor();
 
+  const touch = (field: keyof typeof touched) => setTouched((p) => ({ ...p, [field]: true }));
+
+  // Per-field errors
+  const errors = {
+    fullName: validate(fullName, { minLen: 3, requireSpace: true }),
+    clinicName: validate(clinicName, { minLen: 3 }),
+    monthlyEnquiries: validate(monthlyEnquiries, { minNumber: 0 }),
+    email: validate(email, { isEmail: true }),
+    challenge: validate(challenge, { minLen: 20 }),
+  };
+
+  const isFormValid = Object.values(errors).every((e) => e === null);
+
+  const dismissToast = useCallback(() => setToast(null), []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Touch all fields to surface any hidden errors
+    setTouched({ fullName: true, clinicName: true, monthlyEnquiries: true, email: true, challenge: true });
+
+    if (!isFormValid) {
+      setToast('Incomplete Data: Please provide full details for a valid audit.');
+      return;
+    }
+
     setFormState('loading');
 
-    // Build problem_statement enriched with diagnosed exposure if available
     const problemStatement = auditState.hasRun
-      ? `Monthly high-ticket enquiries: ${monthlyEnquiries}. Diagnosed annual revenue exposure: ${formatGBP(auditState.monthlyBleed * 12)}. Response time: ${auditState.responseMinutes} min avg.`
-      : `Monthly high-ticket enquiries: ${monthlyEnquiries}`;
+      ? `${challenge.trim()}\n\n[Quick Audit: Monthly enquiries: ${monthlyEnquiries}. Diagnosed annual exposure: ${formatGBP(auditState.monthlyBleed * 12)}. Response time: ${auditState.responseMinutes} min avg.]`
+      : `${challenge.trim()}\n\nMonthly high-ticket enquiries: ${monthlyEnquiries}`;
 
     const payload = {
-      full_name: fullName.trim() || clinicName.trim(),
+      full_name: fullName.trim(),
       business_name: clinicName.trim(),
       business_email: email.trim(),
-      website: null,          // not collected at this stage; schema allows nullable
+      website: null,
       business_size: monthlyEnquiries.trim(),
       automation_goal: 'AI patient acquisition — Implant and Invisalign lead conversion',
       problem_statement: problemStatement,
-      budget_range: null,     // not collected at this stage
+      budget_range: null,
       status: 'new',
     };
 
@@ -86,208 +201,247 @@ export default function ContactForm() {
       setFormState('success');
     } catch {
       const body = encodeURIComponent(
-        `Full Name: ${payload.full_name}\nClinic Name: ${clinicName}\nMonthly High-Ticket Enquiries: ${monthlyEnquiries}\nEmail: ${email}\n\n${auditState.hasRun ? `Diagnosed Annual Exposure: ${formatGBP(auditState.monthlyBleed * 12)}` : ''}`
+        `Full Name: ${payload.full_name}\nClinic: ${clinicName}\nEnquiries/month: ${monthlyEnquiries}\nEmail: ${email}\nChallenge: ${challenge}${auditState.hasRun ? `\n\nDiagnosed Annual Exposure: ${formatGBP(auditState.monthlyBleed * 12)}` : ''}`
       );
       window.location.href = `mailto:marc@sergiodental.com?subject=Strategic Audit Application - ${clinicName}&body=${body}`;
       setFormState('success');
     }
   };
 
+  // Input style helpers
+  const iStyle = (field: keyof typeof errors): React.CSSProperties => ({
+    ...fieldStyle(errors[field], touched[field]),
+    paddingBottom: touched[field] && errors[field] ? '28px' : '16px',
+  });
+
+  const onFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.currentTarget.style.borderColor = touched[e.currentTarget.name as keyof typeof errors] && errors[e.currentTarget.name as keyof typeof errors]
+      ? 'rgba(239,68,68,0.8)'
+      : 'rgba(255,255,255,0.25)';
+    e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
+    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(255,255,255,0.04)';
+  };
+  const onBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+    e.currentTarget.style.boxShadow = 'none';
+  };
+
   return (
-    <section id="contact" className="dark-mesh-gradient py-32">
-      <div className="max-w-6xl mx-auto px-6">
-        <div
-          ref={headerRef}
-          className="text-center max-w-2xl mx-auto mb-16 animate-start"
-          style={headerVisible ? {
-            opacity: 1,
-            transform: 'translateY(0)',
-            transition: 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)',
-          } : {}}
-        >
-          <p
-            style={{
-              fontFamily: 'Inter, system-ui, sans-serif',
-              fontSize: '9px',
-              fontWeight: 400,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: 'rgba(245,242,236,0.35)',
-              marginBottom: '1.5rem',
-              paddingLeft: '14px',
-              borderLeft: '2px solid rgba(245,242,236,0.12)',
-              display: 'inline-block',
-            }}
-          >
-            Secure Access
-          </p>
-          <h2
-            className="font-serif font-bold text-white"
-            style={{
-              fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
-              lineHeight: 1.04,
-              letterSpacing: '-0.04em',
-              fontFeatureSettings: "'liga' 1, 'kern' 1",
-              display: 'block',
-              marginTop: '1rem',
-            }}
-          >
-            Secure Your Infrastructure.
-          </h2>
-          <div style={{ width: '32px', height: '1px', background: 'rgba(245,242,236,0.15)', margin: '1.5rem auto' }} />
-          <p
-            style={{
-              fontFamily: 'Inter, system-ui, sans-serif',
-              fontSize: '15px',
-              fontWeight: 300,
-              lineHeight: 1.85,
-              color: 'rgba(245,242,236,0.45)',
-            }}
-          >
-            This engagement is not for everyone. We onboard exactly 2 private clinics per month to ensure architectural integrity. Apply below.
-          </p>
+    <>
+      {toast && <Toast message={toast} onClose={dismissToast} />}
 
-          {/* Show diagnosed exposure if context has run */}
-          {auditState.hasRun && (
-            <div
+      <section id="contact" className="dark-mesh-gradient py-32">
+        <div className="max-w-6xl mx-auto px-6">
+
+          <div
+            ref={headerRef}
+            className="text-center max-w-2xl mx-auto mb-16 animate-start"
+            style={headerVisible ? {
+              opacity: 1, transform: 'translateY(0)',
+              transition: 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)',
+            } : {}}
+          >
+            <p
               style={{
-                marginTop: '1.5rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '10px 18px',
-                border: '1px solid rgba(212,168,83,0.18)',
-                background: 'rgba(212,168,83,0.04)',
+                fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px', fontWeight: 400,
+                letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(245,242,236,0.35)',
+                marginBottom: '1.5rem', paddingLeft: '14px', borderLeft: '2px solid rgba(245,242,236,0.12)',
+                display: 'inline-block',
               }}
             >
-              <span
-                style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
-                  fontSize: '1.4rem',
-                  fontWeight: 700,
-                  letterSpacing: '-0.03em',
-                  color: 'rgba(212,168,83,0.85)',
-                }}
-              >
-                {formatGBP(auditState.monthlyBleed * 12)}
-              </span>
-              <span
-                style={{
-                  fontFamily: 'Inter, system-ui, sans-serif',
-                  fontSize: '9px',
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase' as const,
-                  color: 'rgba(212,168,83,0.5)',
-                  lineHeight: 1.5,
-                }}
-              >
-                Your diagnosed<br />annual exposure
-              </span>
-            </div>
-          )}
-        </div>
-
-        <div
-          ref={formRef}
-          className="max-w-lg mx-auto animate-start"
-          style={formVisible ? {
-            opacity: 1,
-            transform: 'translateY(0)',
-            transition: 'opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s',
-          } : {}}
-        >
-          {formState === 'success' ? (
-            <div className="text-center py-16">
-              <p
-                className="font-serif font-bold text-white"
-                style={{ fontSize: '1.8rem', letterSpacing: '-0.03em', lineHeight: 1.1 }}
-              >
-                Application Received.
-              </p>
-              <div style={{ width: '32px', height: '1px', background: 'rgba(245,242,236,0.15)', margin: '1.5rem auto' }} />
-              <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '15px', fontWeight: 300, color: 'rgba(245,242,236,0.45)', lineHeight: 1.85 }}>
-                Marc will contact you within 24 hours if you qualify.
-              </p>
-            </div>
-          ) : (
-            <div
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                backdropFilter: 'blur(20px)',
-                WebkitBackdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '24px',
-                padding: 'clamp(2rem, 4vw, 3rem)',
-                boxShadow: '0 8px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)',
-              }}
+              Secure Access
+            </p>
+            <h2
+              className="font-serif font-bold text-white"
+              style={{ fontSize: 'clamp(3rem, 5vw, 3.5rem)', lineHeight: 1.04, letterSpacing: '-0.04em', display: 'block', marginTop: '1rem' }}
             >
-              <form onSubmit={handleSubmit}>
-                <Field type="text" required placeholder="Your Full Name" value={fullName} onChange={setFullName} />
-                <Field type="text" required placeholder="Clinic / Practice Name" value={clinicName} onChange={setClinicName} />
-                <Field type="number" required min="0" placeholder="Monthly High-Ticket Enquiries" value={monthlyEnquiries} onChange={setMonthlyEnquiries} />
-                <Field type="email" required placeholder="Owner / Director Email" value={email} onChange={setEmail} />
+              Secure Your Infrastructure.
+            </h2>
+            <div style={{ width: '32px', height: '1px', background: 'rgba(245,242,236,0.15)', margin: '1.5rem auto' }} />
+            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '15px', fontWeight: 300, lineHeight: 1.85, color: 'rgba(245,242,236,0.45)' }}>
+              This engagement is not for everyone. We onboard exactly 2 private clinics per month to ensure architectural integrity. Apply below.
+            </p>
 
-                <button
-                  type="submit"
-                  disabled={formState === 'loading'}
-                  style={{
-                    width: '100%',
-                    background: formState === 'loading' ? 'rgba(245,242,236,0.7)' : '#F5F2EC',
-                    color: '#0f172a',
-                    fontFamily: 'Inter, system-ui, sans-serif',
-                    fontSize: '11px',
-                    fontWeight: 500,
-                    letterSpacing: '0.1em',
-                    textTransform: 'uppercase',
-                    padding: '18px 24px',
-                    borderRadius: '9999px',
-                    border: 'none',
-                    cursor: formState === 'loading' ? 'not-allowed' : 'pointer',
-                    marginTop: '8px',
-                    transition: 'all 0.3s cubic-bezier(0.34,1.56,0.64,1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    boxShadow: '0 2px 20px rgba(0,0,0,0.3)',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (formState !== 'loading') {
-                      (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-2px)';
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 8px 32px rgba(0,0,0,0.4), 0 0 0 4px rgba(245,242,236,0.08)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)';
-                    (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 2px 20px rgba(0,0,0,0.3)';
-                  }}
-                >
-                  {formState === 'loading' ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Submitting...
-                    </>
-                  ) : (
-                    'Apply for Strategic Audit'
-                  )}
-                </button>
-              </form>
-            </div>
-          )}
-        </div>
+            {auditState.hasRun && (
+              <div
+                style={{
+                  marginTop: '1.5rem', display: 'inline-flex', alignItems: 'center', gap: '12px',
+                  padding: '10px 18px', border: '1px solid rgba(212,168,83,0.18)', background: 'rgba(212,168,83,0.04)',
+                }}
+              >
+                <span style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.4rem', fontWeight: 700, letterSpacing: '-0.03em', color: 'rgba(212,168,83,0.85)' }}>
+                  {formatGBP(auditState.monthlyBleed * 12)}
+                </span>
+                <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px', letterSpacing: '0.18em', textTransform: 'uppercase' as const, color: 'rgba(212,168,83,0.5)', lineHeight: 1.5 }}>
+                  Your diagnosed<br />annual exposure
+                </span>
+              </div>
+            )}
+          </div>
 
-        <div
-          className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-2 mt-24 pt-8"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
-        >
-          <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.1em', color: 'rgba(245,242,236,0.25)' }}>
-            &copy; 2026 Processa. Strategic Dental Infrastructure.
-          </p>
-          <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.06em', color: 'rgba(245,242,236,0.25)', marginTop: '1rem' }} className="md:mt-0">
-            marc@sergiodental.com &nbsp;&middot;&nbsp; Directed by Sergio
-          </p>
+          <div
+            ref={formRef}
+            className="max-w-lg mx-auto animate-start"
+            style={formVisible ? {
+              opacity: 1, transform: 'translateY(0)',
+              transition: 'opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s',
+            } : {}}
+          >
+            {formState === 'success' ? (
+              <div className="text-center py-16">
+                <p className="font-serif font-bold text-white" style={{ fontSize: '1.8rem', letterSpacing: '-0.03em', lineHeight: 1.1 }}>
+                  Application Received.
+                </p>
+                <div style={{ width: '32px', height: '1px', background: 'rgba(245,242,236,0.15)', margin: '1.5rem auto' }} />
+                <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '15px', fontWeight: 300, color: 'rgba(245,242,236,0.45)', lineHeight: 1.85 }}>
+                  Marc will contact you within 24 hours if you qualify.
+                </p>
+              </div>
+            ) : (
+              <div
+                style={{
+                  background: 'rgba(255,255,255,0.04)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255,255,255,0.08)', borderRadius: '24px',
+                  padding: 'clamp(2rem, 4vw, 3rem)',
+                  boxShadow: '0 8px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)',
+                }}
+              >
+                <form onSubmit={handleSubmit} noValidate>
+
+                  <ValidatedField error={errors.fullName} touched={touched.fullName}>
+                    <input
+                      type="text"
+                      name="fullName"
+                      placeholder="Full Name (First + Last)"
+                      value={fullName}
+                      autoComplete="name"
+                      onChange={(e) => setFullName(e.target.value)}
+                      onFocus={onFocus}
+                      onBlur={(e) => { touch('fullName'); onBlur(e); }}
+                      style={iStyle('fullName')}
+                    />
+                  </ValidatedField>
+
+                  <ValidatedField error={errors.clinicName} touched={touched.clinicName}>
+                    <input
+                      type="text"
+                      name="clinicName"
+                      placeholder="Clinic / Practice Name"
+                      value={clinicName}
+                      onChange={(e) => setClinicName(e.target.value)}
+                      onFocus={onFocus}
+                      onBlur={(e) => { touch('clinicName'); onBlur(e); }}
+                      style={iStyle('clinicName')}
+                    />
+                  </ValidatedField>
+
+                  <ValidatedField error={errors.monthlyEnquiries} touched={touched.monthlyEnquiries}>
+                    <input
+                      type="number"
+                      name="monthlyEnquiries"
+                      placeholder="Monthly High-Ticket Enquiries"
+                      value={monthlyEnquiries}
+                      min="1"
+                      onChange={(e) => setMonthlyEnquiries(e.target.value)}
+                      onFocus={onFocus}
+                      onBlur={(e) => { touch('monthlyEnquiries'); onBlur(e); }}
+                      style={iStyle('monthlyEnquiries')}
+                    />
+                  </ValidatedField>
+
+                  <ValidatedField error={errors.email} touched={touched.email}>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Owner / Director Email"
+                      value={email}
+                      autoComplete="email"
+                      onChange={(e) => setEmail(e.target.value)}
+                      onFocus={onFocus}
+                      onBlur={(e) => { touch('email'); onBlur(e); }}
+                      style={iStyle('email')}
+                    />
+                  </ValidatedField>
+
+                  <ValidatedField error={errors.challenge} touched={touched.challenge}>
+                    <textarea
+                      name="challenge"
+                      placeholder="Describe your current pipeline challenge (min 20 characters)"
+                      value={challenge}
+                      rows={4}
+                      onChange={(e) => setChallenge(e.target.value)}
+                      onFocus={onFocus}
+                      onBlur={(e) => { touch('challenge'); onBlur(e); }}
+                      style={{
+                        ...iStyle('challenge'),
+                        resize: 'none',
+                        lineHeight: 1.75,
+                        paddingBottom: touched.challenge && errors.challenge ? '28px' : '16px',
+                      }}
+                    />
+                  </ValidatedField>
+
+                  <button
+                    type="submit"
+                    disabled={formState === 'loading' || !isFormValid}
+                    style={{
+                      width: '100%',
+                      background: isFormValid ? '#F5F2EC' : 'rgba(245,242,236,0.25)',
+                      color: isFormValid ? '#0f172a' : 'rgba(15,23,42,0.45)',
+                      fontFamily: 'Inter, system-ui, sans-serif',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      letterSpacing: '0.1em',
+                      textTransform: 'uppercase',
+                      padding: '18px 24px',
+                      borderRadius: '9999px',
+                      border: 'none',
+                      cursor: isFormValid && formState !== 'loading' ? 'pointer' : 'not-allowed',
+                      marginTop: '8px',
+                      transition: 'all 0.25s cubic-bezier(0.34,1.56,0.64,1)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      boxShadow: isFormValid ? '0 2px 20px rgba(0,0,0,0.3)' : 'none',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (isFormValid && formState !== 'loading') {
+                        (e.currentTarget).style.transform = 'translateY(-2px)';
+                        (e.currentTarget).style.boxShadow = '0 8px 32px rgba(0,0,0,0.4), 0 0 0 4px rgba(245,242,236,0.08)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget).style.transform = 'translateY(0)';
+                      (e.currentTarget).style.boxShadow = isFormValid ? '0 2px 20px rgba(0,0,0,0.3)' : 'none';
+                    }}
+                  >
+                    {formState === 'loading' ? (
+                      <><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</>
+                    ) : (
+                      'Apply for Strategic Audit'
+                    )}
+                  </button>
+
+                </form>
+              </div>
+            )}
+          </div>
+
+          <div
+            className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-2 mt-24 pt-8"
+            style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+          >
+            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.1em', color: 'rgba(245,242,236,0.25)' }}>
+              &copy; 2026 Processa. Strategic Dental Infrastructure.
+            </p>
+            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.06em', color: 'rgba(245,242,236,0.25)', marginTop: '1rem' }} className="md:mt-0">
+              marc@sergiodental.com &nbsp;&middot;&nbsp; Directed by Sergio
+            </p>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
