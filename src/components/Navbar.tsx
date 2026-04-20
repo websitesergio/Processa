@@ -24,10 +24,10 @@ export default function Navbar() {
           position: 'sticky',
           top: 0,
           zIndex: 50,
-          background: 'rgba(255,255,255,0.96)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          borderBottom: '1px solid rgba(15,23,42,0.08)',
+          background: 'rgba(255,255,255,0.82)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(15,23,42,0.07)',
         }}
       >
         <nav
@@ -136,9 +136,9 @@ export default function Navbar() {
             className="nav-mobile-menu"
             style={{
               borderTop: '1px solid rgba(15,23,42,0.06)',
-              background: 'rgba(255,255,255,0.98)',
-              backdropFilter: 'blur(24px)',
-              WebkitBackdropFilter: 'blur(24px)',
+              background: 'rgba(255,255,255,0.92)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
               padding: '1rem 1.25rem 1.5rem',
               display: 'flex',
               flexDirection: 'column',
