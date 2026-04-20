@@ -54,6 +54,7 @@ export default function Navbar() {
               letterSpacing: '-0.02em',
               textDecoration: 'none',
               flexShrink: 0,
+            flex: '0 0 auto',
             }}
           >
             Processa
@@ -83,7 +84,7 @@ export default function Navbar() {
           {/* Mobile: CTA pill + hamburger */}
           <div
             className="nav-hamburger"
-            style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flex: '0 0 auto' }}
           >
             <Link
               to="/access"

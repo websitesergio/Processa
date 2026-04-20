@@ -318,7 +318,6 @@ export default function Calculator() {
                   display: 'inline-block',
                   padding: '0.25rem 1rem',
                   borderRadius: '9999px',
-                  animation: 'pulseRing 2.4s ease-out infinite',
                 }}
               >
                 <p
