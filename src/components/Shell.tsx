@@ -189,150 +189,213 @@ function TopNav() {
 }
 
 function SiteFooter() {
-  return (
-    <footer style={{ borderTop: '1px solid rgba(15,23,42,0.08)', background: '#f8fafc' }}>
-      <div className="max-w-7xl mx-auto px-6 md:px-16">
+  const footerCols = [
+    {
+      heading: 'Solutions',
+      links: [
+        { label: 'Revenue Diagnostic', to: '/diagnostic' },
+        { label: 'AI Citation Architecture', to: '/engine' },
+        { label: 'AEO Infrastructure', to: '/engine' },
+        { label: 'Lead Routing System', to: '/roadmap' },
+        { label: 'Patient Enquiry SLA', to: '/roadmap' },
+      ],
+    },
+    {
+      heading: 'Company',
+      links: [
+        { label: 'Methodology', to: '/roadmap' },
+        { label: 'Partner Program', to: '/access' },
+        { label: 'About the Firm', to: '/' },
+        { label: 'Apply for Access', to: '/access' },
+      ],
+    },
+    {
+      heading: 'Compliance',
+      links: [
+        { label: 'Privacy Policy', to: '/' },
+        { label: 'Terms of Service', to: '/' },
+        { label: 'GDPR Statement', to: '/' },
+        { label: 'Cookie Policy', to: '/' },
+      ],
+    },
+  ];
 
+  return (
+    <footer
+      style={{
+        background: '#0b1120',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-6 md:px-10">
+
+        {/* Main grid */}
         <div
-          className="py-24 md:py-32 grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-24"
-          style={{ borderBottom: '1px solid rgba(15,23,42,0.07)' }}
+          className="py-20 md:py-28 grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-10"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
         >
-          <div className="md:col-span-4 flex flex-col gap-8">
-            <span
-              style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
-                fontStyle: 'italic',
-                fontWeight: 400,
-                fontSize: '1.25rem',
-                color: '#0f172a',
-                letterSpacing: '-0.01em',
-              }}
-            >
-              Processa
-            </span>
+          {/* Col 1 — Brand */}
+          <div className="md:col-span-4 flex flex-col gap-7">
+            <div>
+              <span
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontStyle: 'italic',
+                  fontWeight: 400,
+                  fontSize: '1.4rem',
+                  color: '#F5F2EC',
+                  letterSpacing: '-0.02em',
+                  display: 'block',
+                  marginBottom: '6px',
+                }}
+              >
+                Processa
+              </span>
+              <span
+                style={{
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  fontSize: '9px',
+                  fontWeight: 400,
+                  letterSpacing: '0.24em',
+                  textTransform: 'uppercase' as const,
+                  color: 'rgba(245,242,236,0.3)',
+                }}
+              >
+                Strategic Dental Infrastructure
+              </span>
+            </div>
+
             <p
               style={{
                 fontSize: '13px',
                 fontFamily: 'Inter, system-ui, sans-serif',
                 fontWeight: 300,
-                lineHeight: '2.0',
-                color: 'rgba(15,23,42,0.5)',
+                lineHeight: 2.0,
+                color: 'rgba(245,242,236,0.38)',
                 maxWidth: '36ch',
               }}
             >
-              A strategic advisory firm serving elite private dental practices in London and the South-East. Founded on the principle that Capital Efficiency is a structural problem, not a marketing one.
+              We install the systems that make elite private dental practices the cited authority in AI search — and ensure every high-value patient enquiry is actioned in under 60 seconds.
             </p>
-          </div>
 
-          <div className="md:col-span-3 md:col-start-6 flex flex-col gap-5">
-            <p
+            <div
               style={{
-                fontSize: '9px',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase' as const,
-                color: '#1d4ed8',
-                marginBottom: '8px',
+                padding: '16px 20px',
+                border: '1px solid rgba(255,255,255,0.06)',
+                background: 'rgba(255,255,255,0.025)',
               }}
             >
-              Navigation
-            </p>
-            {NAV_LINKS.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
+              <p
                 style={{
-                  fontSize: '11px',
+                  fontSize: '12px',
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontStyle: 'italic',
+                  color: 'rgba(245,242,236,0.35)',
+                  lineHeight: 1.85,
+                }}
+              >
+                "Capital Efficiency in dental is a structural problem — not a marketing one."
+              </p>
+              <p
+                style={{
+                  fontSize: '9px',
                   fontFamily: 'Inter, system-ui, sans-serif',
-                  fontWeight: 300,
-                  letterSpacing: '0.1em',
+                  letterSpacing: '0.16em',
+                  color: 'rgba(245,242,236,0.2)',
+                  marginTop: '10px',
                   textTransform: 'uppercase' as const,
-                  color: 'rgba(15,23,42,0.42)',
-                  transition: 'color 0.15s ease',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#0f172a'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(15,23,42,0.42)'; }}
               >
-                {l.label}
-              </Link>
-            ))}
+                Sergio · Founder
+              </p>
+            </div>
+
+            <a
+              href="mailto:marc@sergiodental.com?subject=Strategic%20Revenue%20Audit%20Request"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                fontFamily: 'Inter, system-ui, sans-serif',
+                fontSize: '11px',
+                fontWeight: 400,
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase' as const,
+                color: 'rgba(245,242,236,0.5)',
+                transition: 'color 0.15s ease',
+                alignSelf: 'flex-start',
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.color = '#F5F2EC'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(245,242,236,0.5)'; }}
+            >
+              marc@sergiodental.com
+            </a>
           </div>
 
-          <div className="md:col-span-3 md:col-start-10 flex flex-col gap-5">
-            <p
-              style={{
-                fontSize: '9px',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase' as const,
-                color: '#1d4ed8',
-                marginBottom: '8px',
-              }}
-            >
-              Contact
-            </p>
-            <div
-              style={{
-                fontSize: '11px',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                fontWeight: 300,
-                color: 'rgba(15,23,42,0.5)',
-                lineHeight: '1.8',
-              }}
-            >
-              <p style={{ marginBottom: '2px' }}>Marc</p>
-              <p style={{ marginBottom: '14px', color: 'rgba(15,23,42,0.32)' }}>Senior Strategic Partner</p>
-              <a
-                href="mailto:marc@sergiodental.com?subject=Strategic%20Revenue%20Audit%20Request"
+          {/* Cols 2–4 */}
+          {footerCols.map((col) => (
+            <div key={col.heading} className="md:col-span-2 md:col-start-auto flex flex-col gap-5">
+              <p
                 style={{
-                  display: 'block',
-                  color: '#1d4ed8',
-                  transition: 'color 0.15s ease',
-                  letterSpacing: '0.02em',
+                  fontSize: '9px',
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  letterSpacing: '0.26em',
+                  textTransform: 'uppercase' as const,
+                  color: 'rgba(245,242,236,0.25)',
+                  paddingBottom: '12px',
+                  borderBottom: '1px solid rgba(255,255,255,0.06)',
+                  marginBottom: '4px',
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.color = '#1e40af'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.color = '#1d4ed8'; }}
               >
-                marc@sergiodental.com
-              </a>
+                {col.heading}
+              </p>
+              {col.links.map((l) => (
+                <Link
+                  key={l.label}
+                  to={l.to}
+                  style={{
+                    fontSize: '12px',
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    fontWeight: 300,
+                    letterSpacing: '0.04em',
+                    color: 'rgba(245,242,236,0.38)',
+                    transition: 'color 0.15s ease',
+                    lineHeight: 1.6,
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#F5F2EC'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(245,242,236,0.38)'; }}
+                >
+                  {l.label}
+                </Link>
+              ))}
             </div>
-            <div
-              style={{
-                fontSize: '11px',
-                fontFamily: 'Inter, system-ui, sans-serif',
-                fontWeight: 300,
-                color: 'rgba(15,23,42,0.5)',
-                lineHeight: '1.8',
-                paddingTop: '8px',
-              }}
-            >
-              <p style={{ marginBottom: '2px' }}>Sergio</p>
-              <p style={{ color: 'rgba(15,23,42,0.32)' }}>Lead Systems Engineering & Founder</p>
-            </div>
-          </div>
+          ))}
         </div>
 
-        <div className="py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        {/* Bottom bar */}
+        <div className="py-7 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <p
             style={{
               fontSize: '10px',
               fontFamily: 'Inter, system-ui, sans-serif',
               fontWeight: 300,
               letterSpacing: '0.1em',
-              color: 'rgba(15,23,42,0.28)',
+              color: 'rgba(245,242,236,0.2)',
             }}
           >
             &copy; 2026 Processa Ltd. &nbsp;&middot;&nbsp; All rights reserved. &nbsp;&middot;&nbsp; London, United Kingdom
           </p>
+
           <div className="flex items-center gap-3">
             <span
-              className="pulse-quiet"
               style={{
                 display: 'block',
-                width: '5px',
-                height: '5px',
+                width: '6px',
+                height: '6px',
                 borderRadius: '50%',
-                background: '#1d4ed8',
+                background: '#22c55e',
+                animation: 'liveStatusPulse 2.4s ease-out infinite',
+                flexShrink: 0,
               }}
             />
             <span
@@ -341,7 +404,8 @@ function SiteFooter() {
                 fontFamily: 'Inter, system-ui, sans-serif',
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase' as const,
-                color: 'rgba(15,23,42,0.3)',
+                color: 'rgba(245,242,236,0.22)',
+                whiteSpace: 'nowrap',
               }}
             >
               Advisory Active &nbsp;&middot;&nbsp; 2 Mandates Remaining
