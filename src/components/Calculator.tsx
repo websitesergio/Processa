@@ -308,19 +308,28 @@ export default function Calculator() {
                 Annual Revenue Exposure
               </p>
 
-              <p
+              <div
                 style={{
-                  fontFamily: "'Playfair Display', Georgia, serif",
-                  fontWeight: 700,
-                  fontSize: 'clamp(4rem, 12vw, 9rem)',
-                  lineHeight: 1,
-                  letterSpacing: '-0.04em',
-                  color: '#0f172a',
-                  fontVariantNumeric: 'tabular-nums',
+                  display: 'inline-block',
+                  padding: '0.25rem 1rem',
+                  borderRadius: '9999px',
+                  animation: 'pulseRing 2.4s ease-out infinite',
                 }}
               >
-                {formatGBP(displayedExposure)}
-              </p>
+                <p
+                  style={{
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                    fontWeight: 700,
+                    fontSize: 'clamp(4rem, 12vw, 9rem)',
+                    lineHeight: 1,
+                    letterSpacing: '-0.04em',
+                    color: '#0f172a',
+                    fontVariantNumeric: 'tabular-nums',
+                  }}
+                >
+                  {formatGBP(displayedExposure)}
+                </p>
+              </div>
 
               <p
                 style={{

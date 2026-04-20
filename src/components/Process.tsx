@@ -124,11 +124,13 @@ export default function Process() {
               className="animate-start"
               style={{
                 gridRow: large ? 'span 2' : 'auto',
-                background: '#ffffff',
-                border: '1px solid rgba(15,23,42,0.09)',
+                background: 'rgba(255,255,255,0.7)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.8)',
                 borderRadius: '2rem',
                 padding: large ? 'clamp(2.5rem,5vw,3.5rem)' : 'clamp(2rem,4vw,2.75rem)',
-                boxShadow: '0 2px 20px rgba(15,23,42,0.06), 0 1px 4px rgba(15,23,42,0.04)',
+                boxShadow: '0 4px 24px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
                 position: 'relative' as const,
                 overflow: 'hidden' as const,
                 display: 'flex',
@@ -153,9 +155,9 @@ export default function Process() {
                   bottom: '-1rem',
                   right: '-0.5rem',
                   fontFamily: "'Playfair Display', Georgia, serif",
-                  fontSize: large ? '11rem' : '8rem',
+                  fontSize: large ? '16rem' : '11rem',
                   fontWeight: 700,
-                  color: 'rgba(15,23,42,0.04)',
+                  color: 'rgba(15,23,42,0.06)',
                   lineHeight: 1,
                   letterSpacing: '-0.05em',
                   userSelect: 'none',
@@ -181,7 +183,7 @@ export default function Process() {
                     {label}
                   </span>
                   {accent && (
-                    <div style={{ width: '28px', height: '2px', background: '#0f172a', borderRadius: '1px' }} />
+                    <div style={{ width: '40px', height: '3px', background: '#D4A853', borderRadius: '2px' }} />
                   )}
                 </div>
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import IndustryTrustBar from './components/IndustryTrustBar';
+import CredibilityStrip from './components/CredibilityStrip';
 import Calculator from './components/Calculator';
 import MarketReality from './components/MarketReality';
 import Process from './components/Process';
@@ -114,7 +114,7 @@ export default function App() {
     <div className="bg-white min-h-screen text-slate-900 antialiased">
       <Navbar />
       <Hero />
-      <IndustryTrustBar />
+      <CredibilityStrip />
       <Calculator />
       <MarketReality />
       <Process />
