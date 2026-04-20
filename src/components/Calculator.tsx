@@ -247,7 +247,7 @@ export default function Calculator() {
               >
                 Monthly High-Ticket Enquiries
               </p>
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {ENQUIRY_OPTIONS.map((opt, i) => (
                   <OptionCard
                     key={opt.label}
@@ -278,7 +278,7 @@ export default function Calculator() {
               >
                 Typical Response Time to New Enquiries
               </p>
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {RESPONSE_OPTIONS.map((opt, i) => (
                   <OptionCard
                     key={opt.label}
@@ -325,7 +325,7 @@ export default function Calculator() {
                   style={{
                     fontFamily: "'Playfair Display', Georgia, serif",
                     fontWeight: 700,
-                    fontSize: 'clamp(4rem, 12vw, 9rem)',
+                    fontSize: 'clamp(2.5rem, 10vw, 9rem)',
                     lineHeight: 1,
                     letterSpacing: '-0.04em',
                     color: '#0f172a',

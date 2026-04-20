@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useInView } from '../lib/useInView';
+import { useWindowWidth } from '../lib/useWindowWidth';
 
 const PHASES = [
   {
@@ -32,6 +33,8 @@ const PHASES = [
 ];
 
 export default function Process() {
+  const width = useWindowWidth();
+  const isMobile = width < 768;
   const [headerRef, headerVisible] = useInView<HTMLDivElement>({ threshold: 0.15 });
   const [card0Ref, card0Visible] = useInView<HTMLDivElement>({ threshold: 0.08 });
   const [card1Ref, card1Visible] = useInView<HTMLDivElement>({ threshold: 0.08 });
@@ -113,9 +116,9 @@ export default function Process() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gridTemplateRows: 'auto auto',
-            gap: '1.25rem',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+            gridTemplateRows: isMobile ? 'auto' : 'auto auto',
+            gap: isMobile ? '1.5rem' : '1.25rem',
           }}
         >
           {PHASES.map(({ phase, label, title, subtitle, body, large, accent }, i) => (
@@ -124,13 +127,13 @@ export default function Process() {
               ref={cardRefs[i]}
               className="animate-start"
               style={{
-                gridRow: large ? 'span 2' : 'auto',
+                gridRow: !isMobile && large ? 'span 2' : 'auto',
                 background: 'rgba(255,255,255,0.7)',
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
                 border: '1px solid rgba(255,255,255,0.8)',
                 borderRadius: '2rem',
-                padding: large ? 'clamp(2.5rem,5vw,3.5rem)' : 'clamp(2rem,4vw,2.75rem)',
+                padding: isMobile ? '1.75rem' : large ? 'clamp(2.5rem,5vw,3.5rem)' : 'clamp(2rem,4vw,2.75rem)',
                 boxShadow: '0 4px 24px rgba(15,23,42,0.07), 0 1px 4px rgba(15,23,42,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
                 position: 'relative' as const,
                 overflow: 'hidden' as const,
