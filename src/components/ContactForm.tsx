@@ -39,7 +39,7 @@ function fieldStyle(error: string | null, touched: boolean): React.CSSProperties
     padding: '16px 20px',
     color: '#F5F2EC',
     fontFamily: 'Inter, system-ui, sans-serif',
-    fontSize: '14px',
+    fontSize: '16px',
     fontWeight: 300,
     outline: 'none',
     transition: 'border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease',
@@ -200,6 +200,7 @@ export default function ContactForm() {
     try {
       const { error } = await supabase.from('contact_submissions').insert([payload]);
       if (error) throw error;
+      console.log('LEAD_READY_FOR_WEBHOOK', payload);
       setFormState('success');
     } catch {
       const body = encodeURIComponent(
@@ -290,13 +291,84 @@ export default function ContactForm() {
             } : {}}
           >
             {formState === 'success' ? (
-              <div className="text-center py-16">
-                <p className="font-serif font-bold text-white" style={{ fontSize: '1.8rem', letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-                  Application Received.
+              <div
+                style={{
+                  textAlign: 'center',
+                  padding: 'clamp(3rem, 8vw, 5rem) clamp(1.5rem, 4vw, 3rem)',
+                  animation: 'fadeIn 0.6s cubic-bezier(0.16,1,0.3,1) both',
+                }}
+              >
+                {/* Monogram mark */}
+                <div style={{ marginBottom: '2rem' }}>
+                  <span
+                    style={{
+                      fontFamily: "'Playfair Display', Georgia, serif",
+                      fontStyle: 'italic',
+                      fontSize: '2rem',
+                      color: 'rgba(245,242,236,0.18)',
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
+                    P
+                  </span>
+                </div>
+
+                <p
+                  style={{
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    fontSize: '9px',
+                    fontWeight: 400,
+                    letterSpacing: '0.28em',
+                    textTransform: 'uppercase' as const,
+                    color: 'rgba(245,242,236,0.3)',
+                    marginBottom: '1.5rem',
+                  }}
+                >
+                  Application Received
                 </p>
-                <div style={{ width: '32px', height: '1px', background: 'rgba(245,242,236,0.15)', margin: '1.5rem auto' }} />
-                <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '15px', fontWeight: 300, color: 'rgba(245,242,236,0.45)', lineHeight: 1.85 }}>
-                  Marc will contact you within 24 hours if you qualify.
+
+                <h2
+                  style={{
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                    fontWeight: 700,
+                    fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                    lineHeight: 1.04,
+                    letterSpacing: '-0.04em',
+                    color: '#F5F2EC',
+                    marginBottom: '0.5rem',
+                  }}
+                >
+                  Application
+                </h2>
+                <h2
+                  style={{
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                    fontStyle: 'italic',
+                    fontWeight: 400,
+                    fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                    lineHeight: 1.04,
+                    letterSpacing: '-0.03em',
+                    color: 'rgba(245,242,236,0.6)',
+                    marginBottom: '2rem',
+                  }}
+                >
+                  Received.
+                </h2>
+
+                <div style={{ width: '32px', height: '1px', background: 'rgba(245,242,236,0.12)', margin: '0 auto 2rem' }} />
+
+                <p
+                  style={{
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    fontSize: '15px',
+                    fontWeight: 300,
+                    lineHeight: 1.9,
+                    color: 'rgba(245,242,236,0.45)',
+                    maxWidth: '34ch',
+                    margin: '0 auto',
+                  }}
+                >
+                  Marc or Sergiu will contact you within 60 minutes for your strategic brief.
                 </p>
               </div>
             ) : (

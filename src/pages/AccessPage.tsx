@@ -103,7 +103,7 @@ function iStyle(hasError: boolean): React.CSSProperties {
     width: '100%', background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(8px)',
     border: `1px solid ${hasError ? 'rgba(239,68,68,0.6)' : 'rgba(15,23,42,0.12)'}`,
     borderRadius: '10px', padding: '14px 18px', fontFamily: 'Inter, system-ui, sans-serif',
-    fontSize: '14px', fontWeight: 300, color: '#0f172a', outline: 'none',
+    fontSize: '16px', fontWeight: 300, color: '#0f172a', outline: 'none',
     transition: 'border-color 0.18s ease, box-shadow 0.18s ease',
   };
 }
@@ -221,19 +221,22 @@ export default function AccessPage() {
       ? `${form.problem_statement}\n\n[Quick Audit Result: Annual exposure = ${formatGBP(auditState.monthlyBleed * 12)}, response time = ${auditState.responseMinutes} min avg]`
       : form.problem_statement;
 
+    const payload = {
+      full_name: form.full_name.trim(),
+      business_name: form.business_name.trim(),
+      business_email: form.business_email.trim(),
+      website: form.website.trim() || null,
+      business_size: form.business_size,
+      automation_goal: 'AI patient acquisition — Implant and Invisalign lead conversion',
+      problem_statement: enrichedProblem.trim(),
+      budget_range: null,
+      status: 'new',
+    };
+
     try {
-      const { error } = await supabase.from('contact_submissions').insert([{
-        full_name: form.full_name.trim(),
-        business_name: form.business_name.trim(),
-        business_email: form.business_email.trim(),
-        website: form.website.trim() || null,
-        business_size: form.business_size,
-        automation_goal: 'AI patient acquisition — Implant and Invisalign lead conversion',
-        problem_statement: enrichedProblem.trim(),
-        budget_range: null,
-        status: 'new',
-      }]);
+      const { error } = await supabase.from('contact_submissions').insert([payload]);
       if (error) throw error;
+      console.log('LEAD_READY_FOR_WEBHOOK', payload);
       setStatus('success');
       setForm(INITIAL);
     } catch {
@@ -315,15 +318,82 @@ export default function AccessPage() {
                 style={formVisible ? { opacity: 1, transform: 'translateY(0)', transition: 'opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s' } : {}}
               >
                 {status === 'success' ? (
-                  <div className="glass-card rounded-3xl" style={{ padding: '3rem' }}>
-                    <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px', fontWeight: 400, letterSpacing: '0.24em', textTransform: 'uppercase' as const, color: '#1d4ed8', marginBottom: '16px' }}>
+                  <div
+                    className="glass-card rounded-3xl"
+                    style={{
+                      padding: 'clamp(3rem, 8vw, 5rem) clamp(2rem, 5vw, 4rem)',
+                      textAlign: 'center',
+                      animation: 'fadeIn 0.6s cubic-bezier(0.16,1,0.3,1) both',
+                    }}
+                  >
+                    {/* Monogram */}
+                    <div style={{ marginBottom: '2rem' }}>
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: '56px',
+                          height: '56px',
+                          borderRadius: '50%',
+                          border: '1px solid rgba(15,23,42,0.1)',
+                          lineHeight: '56px',
+                          textAlign: 'center',
+                          fontFamily: "'Playfair Display', Georgia, serif",
+                          fontStyle: 'italic',
+                          fontSize: '1.5rem',
+                          color: 'rgba(15,23,42,0.25)',
+                          letterSpacing: '-0.02em',
+                        }}
+                      >
+                        P
+                      </span>
+                    </div>
+
+                    <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '9px', fontWeight: 400, letterSpacing: '0.28em', textTransform: 'uppercase' as const, color: 'rgba(15,23,42,0.35)', marginBottom: '1.5rem' }}>
                       Application Received
                     </p>
-                    <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(1.6rem, 3vw, 2.5rem)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 1.1, color: '#0f172a', marginBottom: '16px' }}>
-                      Your application is under review.
+
+                    <h2
+                      style={{
+                        fontFamily: "'Playfair Display', Georgia, serif",
+                        fontWeight: 700,
+                        fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                        lineHeight: 1.04,
+                        letterSpacing: '-0.04em',
+                        color: '#0f172a',
+                        marginBottom: '0.4rem',
+                      }}
+                    >
+                      Application
                     </h2>
-                    <p style={{ fontSize: '14px', fontFamily: 'Inter, system-ui, sans-serif', fontWeight: 300, lineHeight: 1.9, color: '#475569', maxWidth: '44ch' }}>
-                      If your practice meets our criteria, you will receive the diagnostic brief within 48 hours. No calls. No sales process.
+                    <h2
+                      style={{
+                        fontFamily: "'Playfair Display', Georgia, serif",
+                        fontStyle: 'italic',
+                        fontWeight: 400,
+                        fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                        lineHeight: 1.04,
+                        letterSpacing: '-0.03em',
+                        color: 'rgba(15,23,42,0.35)',
+                        marginBottom: '2rem',
+                      }}
+                    >
+                      Received.
+                    </h2>
+
+                    <div style={{ width: '32px', height: '1px', background: 'rgba(15,23,42,0.1)', margin: '0 auto 2rem' }} />
+
+                    <p
+                      style={{
+                        fontSize: '15px',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        fontWeight: 300,
+                        lineHeight: 1.9,
+                        color: '#475569',
+                        maxWidth: '34ch',
+                        margin: '0 auto',
+                      }}
+                    >
+                      Marc or Sergiu will contact you within 60 minutes for your strategic brief.
                     </p>
                   </div>
                 ) : (

@@ -67,7 +67,8 @@ function OptionCard({
       style={{
         flex: '1 1 0',
         minWidth: 0,
-        padding: '1.5rem 1rem',
+        minHeight: '72px',
+        padding: 'clamp(1.25rem, 3vw, 1.5rem) clamp(0.5rem, 2vw, 1rem)',
         borderRadius: '16px',
         border: selected ? '2px solid #0f172a' : '2px solid #e2e8f0',
         background: selected ? '#0f172a' : '#ffffff',
@@ -81,7 +82,10 @@ function OptionCard({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: '6px',
+        WebkitTapHighlightColor: 'transparent',
+        touchAction: 'manipulation',
       }}
     >
       <span
