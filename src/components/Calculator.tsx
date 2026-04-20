@@ -1,52 +1,53 @@
 import { useState, useEffect, useRef } from 'react';
 import { useInView } from '../lib/useInView';
+import { useAuditor, formatGBP } from '../lib/AuditorContext';
 
 const LTV = 3500;
 
 const ENQUIRY_OPTIONS = [
-  { label: '1–20', sublabel: 'Early stage', value: 10 },
-  { label: '21–50', sublabel: 'Growing', value: 35 },
-  { label: '51–100', sublabel: 'Established', value: 75 },
-  { label: '100+', sublabel: 'High volume', value: 150 },
+  { label: '1–20',  sublabel: 'Early stage',  value: 10,  responseMinuteMedian: 10  },
+  { label: '21–50', sublabel: 'Growing',       value: 35,  responseMinuteMedian: 35  },
+  { label: '51–100',sublabel: 'Established',   value: 75,  responseMinuteMedian: 75  },
+  { label: '100+',  sublabel: 'High volume',   value: 150, responseMinuteMedian: 150 },
 ];
 
 const RESPONSE_OPTIONS = [
-  { label: '< 5 Min', sublabel: 'Instant', value: 0.1 },
-  { label: '1 Hour', sublabel: 'Same hour', value: 1 },
-  { label: '4 Hours', sublabel: 'Half day', value: 4 },
-  { label: 'Next Day', sublabel: '24 hours', value: 24 },
+  { label: '< 5 Min', sublabel: 'Instant',   hours: 0.1,  minutes: 0.1  },
+  { label: '1 Hour',  sublabel: 'Same hour', hours: 1,    minutes: 60   },
+  { label: '4 Hours', sublabel: 'Half day',  hours: 4,    minutes: 240  },
+  { label: 'Next Day',sublabel: '24 hours',  hours: 24,   minutes: 1440 },
 ];
 
+// Logarithmic decay for first 60 minutes, capped at 88% maximum total loss.
+// Loss rate = log10(minutes + 1) * MULTIPLIER where MULTIPLIER is calibrated
+// so that 60-minute response yields ~55% conversion loss and 1440min ~88%.
+const LOG_MULTIPLIER = 0.235; // calibrated: log10(1441) * 0.235 ≈ 0.81 → capped at 0.88
+
 function calcAnnualExposure(enquiries: number, responseHours: number): number {
+  const responseMinutes = responseHours * 60;
+  const decayRate = Math.min(0.88, Math.log10(responseMinutes + 1) * LOG_MULTIPLIER);
   const baseConversionRate = 0.22;
-  const decayFactor =
-    1 -
-    Math.min(
-      0.88,
-      responseHours * 0.034 +
-        (responseHours > 4 ? (responseHours - 4) * 0.018 : 0)
-    );
-  const lostConversionRate = baseConversionRate - baseConversionRate * decayFactor;
+  const lostConversionRate = baseConversionRate * decayRate;
   return Math.round(enquiries * lostConversionRate * LTV * 12);
 }
 
-function useCountUp(target: number, duration = 600): number {
+function useCountUp(target: number, duration = 650): number {
   const [displayed, setDisplayed] = useState(target);
   const frameRef = useRef<number | null>(null);
-  const startRef = useRef<{ from: number; startTime: number } | null>(null);
+  const prevTarget = useRef(target);
 
   useEffect(() => {
     if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
-    startRef.current = { from: displayed, startTime: performance.now() };
-    const from = displayed;
+    const from = prevTarget.current;
+    const startTime = performance.now();
 
     const tick = (now: number) => {
-      const elapsed = now - startRef.current!.startTime;
+      const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
       setDisplayed(Math.round(from + (target - from) * eased));
       if (progress < 1) frameRef.current = requestAnimationFrame(tick);
+      else prevTarget.current = target;
     };
 
     frameRef.current = requestAnimationFrame(tick);
@@ -55,14 +56,6 @@ function useCountUp(target: number, duration = 600): number {
   }, [target, duration]);
 
   return displayed;
-}
-
-function formatGBP(value: number): string {
-  return new Intl.NumberFormat('en-GB', {
-    style: 'currency',
-    currency: 'GBP',
-    maximumFractionDigits: 0,
-  }).format(value);
 }
 
 interface OptionCardProps {
@@ -117,7 +110,7 @@ function OptionCard({ label, sublabel, selected, onClick }: OptionCardProps) {
           fontSize: '9px',
           fontWeight: 400,
           letterSpacing: '0.18em',
-          textTransform: 'uppercase',
+          textTransform: 'uppercase' as const,
           color: selected ? 'rgba(255,255,255,0.55)' : 'rgba(15,23,42,0.38)',
           transition: 'color 0.18s ease',
           whiteSpace: 'nowrap',
@@ -134,12 +127,26 @@ export default function Calculator() {
   const [responseIdx, setResponseIdx] = useState(2);
   const [sectionRef, sectionVisible] = useInView<HTMLElement>({ threshold: 0.1 });
   const [cardRef, cardVisible] = useInView<HTMLDivElement>({ threshold: 0.1 });
+  const { setState } = useAuditor();
 
-  const rawExposure = calcAnnualExposure(
-    ENQUIRY_OPTIONS[enquiryIdx].value,
-    RESPONSE_OPTIONS[responseIdx].value
-  );
+  const selectedEnquiry = ENQUIRY_OPTIONS[enquiryIdx];
+  const selectedResponse = RESPONSE_OPTIONS[responseIdx];
+  const rawExposure = calcAnnualExposure(selectedEnquiry.value, selectedResponse.hours);
   const displayedExposure = useCountUp(rawExposure, 650);
+  const monthlyExposure = Math.round(rawExposure / 12);
+
+  // Sync to global context on every selection change
+  useEffect(() => {
+    setState({
+      monthlyLeads: selectedEnquiry.value,
+      caseValue: LTV,
+      responseMinutes: selectedResponse.minutes,
+      monthlyBleed: monthlyExposure,
+      hasRun: true,
+      updatedAt: Date.now(),
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enquiryIdx, responseIdx]);
 
   return (
     <section
@@ -250,10 +257,7 @@ export default function Calculator() {
 
               <p
                 className="display-number text-slate-900 leading-none"
-                style={{
-                  fontSize: 'clamp(3.5rem, 10vw, 8rem)',
-                  transition: 'opacity 0.15s ease',
-                }}
+                style={{ fontSize: 'clamp(3.5rem, 10vw, 8rem)' }}
               >
                 {formatGBP(displayedExposure)}
               </p>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useInView } from '../lib/useInView';
 
 const STEPS = [
   {
@@ -12,7 +13,7 @@ const STEPS = [
   {
     index: '02',
     title: 'Lead Velocity Optimisation',
-    headline: 'Intent without infrastructure is pipeline hemorrhage.',
+    headline: 'Intent without infrastructure is pipeline haemorrhage.',
     body: 'Visibility without conversion architecture is wasted Patient Acquisition Cost. We engineer the full patient journey from first discovery to confirmed appointment — tracking micro-intents, qualifying enquiries automatically, and routing every lead to the correct response protocol within 60 seconds to maximise Capital Efficiency.',
     proof: 'A 5-minute response window qualifies at 21× the rate of a 30-minute window.',
   },
@@ -25,81 +26,189 @@ const STEPS = [
   },
 ] as const;
 
+function StepRow({ step, index }: { step: typeof STEPS[number]; index: number }) {
+  const [ref, visible] = useInView<HTMLDivElement>({ threshold: 0.1 });
+  return (
+    <div
+      ref={ref}
+      className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 py-20 animate-start"
+      style={{
+        borderTop: '1px solid rgba(15,23,42,0.07)',
+        ...(visible ? {
+          opacity: 1,
+          transform: 'translateY(0)',
+          transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms`,
+        } : {}),
+      }}
+    >
+      <div className="md:col-span-1">
+        <span
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: '3.5rem',
+            fontWeight: 700,
+            color: 'rgba(15,23,42,0.08)',
+            lineHeight: 1,
+            letterSpacing: '-0.04em',
+          }}
+        >
+          {step.index}
+        </span>
+      </div>
+
+      <div className="md:col-span-4 flex flex-col justify-start pt-1">
+        <p
+          style={{
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontSize: '9px',
+            fontWeight: 400,
+            letterSpacing: '0.24em',
+            textTransform: 'uppercase' as const,
+            color: '#1d4ed8',
+            marginBottom: '16px',
+          }}
+        >
+          {step.title}
+        </p>
+        <h2
+          style={{
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontSize: 'clamp(1.4rem, 2.5vw, 2rem)',
+            fontWeight: 700,
+            letterSpacing: '-0.03em',
+            lineHeight: 1.1,
+            color: '#0f172a',
+          }}
+        >
+          {step.headline}
+        </h2>
+      </div>
+
+      <div className="md:col-span-6 md:col-start-7 flex flex-col justify-start pt-1">
+        <p
+          style={{
+            fontSize: '14px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontWeight: 300,
+            lineHeight: 1.95,
+            color: 'rgba(15,23,42,0.55)',
+            marginBottom: '20px',
+          }}
+        >
+          {step.body}
+        </p>
+        <p
+          style={{
+            fontSize: '10px',
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontWeight: 300,
+            color: 'rgba(15,23,42,0.35)',
+            borderLeft: '2px solid rgba(29,78,216,0.3)',
+            paddingLeft: '12px',
+            lineHeight: 1.7,
+          }}
+        >
+          {step.proof}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function EnginePage() {
-  const [visible, setVisible] = useState(false);
+  const [headerRef, headerVisible] = useInView<HTMLDivElement>({ threshold: 0.15 });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const timer = setTimeout(() => setVisible(true), 80);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <main className="bg-white min-h-screen">
-      <section className="px-6 md:px-16 py-40 md:py-52">
-        <div
-          className={[
-            'max-w-7xl mx-auto transition-all duration-1000 ease-out',
-            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8',
-          ].join(' ')}
-        >
-          <div className="max-w-2xl mb-32 md:mb-44">
-            <p className="font-sans font-light text-[10px] uppercase tracking-widest text-blue-700 mb-8">
+    <main className="mesh-gradient-light min-h-screen">
+      <section className="px-6 md:px-16 py-36 md:py-48">
+        <div className="max-w-7xl mx-auto">
+
+          <div
+            ref={headerRef}
+            className="max-w-2xl mb-28 animate-start"
+            style={headerVisible ? {
+              opacity: 1,
+              transform: 'translateY(0)',
+              transition: 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)',
+            } : {}}
+          >
+            <p
+              style={{
+                fontFamily: 'Inter, system-ui, sans-serif',
+                fontSize: '9px',
+                fontWeight: 400,
+                letterSpacing: '0.24em',
+                textTransform: 'uppercase' as const,
+                color: '#1d4ed8',
+                marginBottom: '20px',
+              }}
+            >
               The Engine
             </p>
-            <h1 className="font-serif font-semibold text-slate-900 leading-[1.06] tracking-tighter text-[clamp(2.5rem,6vw,5rem)] mb-8">
+            <h1
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontSize: 'clamp(2.5rem, 6vw, 5rem)',
+                fontWeight: 700,
+                letterSpacing: '-0.04em',
+                lineHeight: 1.04,
+                color: '#0f172a',
+                marginBottom: '20px',
+              }}
+            >
               How Patient Intent<br />Becomes Revenue.
             </h1>
-            <p className="font-sans font-light text-slate-500 text-base md:text-lg leading-[1.9] max-w-[50ch]">
+            <p
+              style={{
+                fontSize: '1rem',
+                fontFamily: 'Inter, system-ui, sans-serif',
+                fontWeight: 300,
+                lineHeight: 1.9,
+                color: 'rgba(15,23,42,0.5)',
+                maxWidth: '50ch',
+              }}
+            >
               Three interlocking systems. Each one is necessary. Together, they produce compounding pipeline recovery that cannot be replicated by a website alone.
             </p>
           </div>
 
-          <div className="flex flex-col gap-0">
-            {STEPS.map((step) => (
-              <div
-                key={step.index}
-                className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 py-20 md:py-28 border-t border-slate-100"
-              >
-                <div className="md:col-span-1">
-                  <span className="font-serif text-slate-200 text-5xl md:text-6xl font-semibold leading-none tracking-tighter">
-                    {step.index}
-                  </span>
-                </div>
-
-                <div className="md:col-span-4 flex flex-col justify-start pt-1">
-                  <p className="font-sans font-light text-[10px] uppercase tracking-widest text-blue-700 mb-5">
-                    {step.title}
-                  </p>
-                  <h2 className="font-serif font-semibold text-slate-900 text-[clamp(1.5rem,3vw,2.25rem)] leading-[1.12] tracking-tighter">
-                    {step.headline}
-                  </h2>
-                </div>
-
-                <div className="md:col-span-6 md:col-start-7 flex flex-col justify-start pt-1">
-                  <p className="font-sans font-light text-slate-600 text-base leading-[1.95] mb-10">
-                    {step.body}
-                  </p>
-                  <p className="font-sans font-light text-[10px] text-slate-400 leading-relaxed border-l-2 border-blue-200 pl-4">
-                    {step.proof}
-                  </p>
-                </div>
-              </div>
+          <div className="flex flex-col">
+            {STEPS.map((step, i) => (
+              <StepRow key={step.index} step={step} index={i} />
             ))}
 
-            <div className="border-t border-slate-100 pt-20 md:pt-28">
+            <div
+              className="py-20"
+              style={{ borderTop: '1px solid rgba(15,23,42,0.07)' }}
+            >
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10">
                 <button
                   type="button"
                   onClick={() => navigate('/roadmap')}
-                  className="font-sans font-light text-[11px] uppercase tracking-widest text-white bg-blue-700 px-8 py-4 transition-all duration-300 hover:bg-blue-800"
+                  className="btn-premium"
+                  style={{ padding: '14px 32px' }}
                 >
                   See the 14-Day Roadmap
                 </button>
                 <button
                   type="button"
                   onClick={() => navigate('/access')}
-                  className="font-sans font-light text-[11px] uppercase tracking-widest text-slate-400 transition-colors duration-200 hover:text-slate-700"
+                  style={{
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    fontSize: '11px',
+                    fontWeight: 400,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase' as const,
+                    color: 'rgba(15,23,42,0.4)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'color 0.15s ease',
+                    padding: 0,
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = '#0f172a'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(15,23,42,0.4)'; }}
                 >
                   Apply for an Audit &nbsp;&rarr;
                 </button>

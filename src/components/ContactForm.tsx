@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useInView } from '../lib/useInView';
+import { useAuditor, formatGBP } from '../lib/AuditorContext';
 
 type FormState = 'idle' | 'loading' | 'success';
 
@@ -49,24 +50,33 @@ function Field({
 }
 
 export default function ContactForm() {
+  const [fullName, setFullName] = useState('');
   const [clinicName, setClinicName] = useState('');
   const [monthlyEnquiries, setMonthlyEnquiries] = useState('');
   const [email, setEmail] = useState('');
   const [formState, setFormState] = useState<FormState>('idle');
   const [headerRef, headerVisible] = useInView<HTMLDivElement>({ threshold: 0.2 });
   const [formRef, formVisible] = useInView<HTMLDivElement>({ threshold: 0.1 });
+  const { state: auditState } = useAuditor();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormState('loading');
 
+    // Build problem_statement enriched with diagnosed exposure if available
+    const problemStatement = auditState.hasRun
+      ? `Monthly high-ticket enquiries: ${monthlyEnquiries}. Diagnosed annual revenue exposure: ${formatGBP(auditState.monthlyBleed * 12)}. Response time: ${auditState.responseMinutes} min avg.`
+      : `Monthly high-ticket enquiries: ${monthlyEnquiries}`;
+
     const payload = {
-      business_name: clinicName,
-      business_email: email,
-      business_size: monthlyEnquiries,
-      full_name: clinicName,
-      automation_goal: 'Lead acquisition and conversion',
-      problem_statement: `Monthly high-ticket enquiries: ${monthlyEnquiries}`,
+      full_name: fullName.trim() || clinicName.trim(),
+      business_name: clinicName.trim(),
+      business_email: email.trim(),
+      website: null,          // not collected at this stage; schema allows nullable
+      business_size: monthlyEnquiries.trim(),
+      automation_goal: 'AI patient acquisition — Implant and Invisalign lead conversion',
+      problem_statement: problemStatement,
+      budget_range: null,     // not collected at this stage
       status: 'new',
     };
 
@@ -76,7 +86,7 @@ export default function ContactForm() {
       setFormState('success');
     } catch {
       const body = encodeURIComponent(
-        `Clinic Name: ${clinicName}\nMonthly High-Ticket Enquiries: ${monthlyEnquiries}\nEmail: ${email}`
+        `Full Name: ${payload.full_name}\nClinic Name: ${clinicName}\nMonthly High-Ticket Enquiries: ${monthlyEnquiries}\nEmail: ${email}\n\n${auditState.hasRun ? `Diagnosed Annual Exposure: ${formatGBP(auditState.monthlyBleed * 12)}` : ''}`
       );
       window.location.href = `mailto:marc@sergiodental.com?subject=Strategic Audit Application - ${clinicName}&body=${body}`;
       setFormState('success');
@@ -136,6 +146,45 @@ export default function ContactForm() {
           >
             This engagement is not for everyone. We onboard exactly 2 private clinics per month to ensure architectural integrity. Apply below.
           </p>
+
+          {/* Show diagnosed exposure if context has run */}
+          {auditState.hasRun && (
+            <div
+              style={{
+                marginTop: '1.5rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: '10px 18px',
+                border: '1px solid rgba(212,168,83,0.18)',
+                background: 'rgba(212,168,83,0.04)',
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontSize: '1.4rem',
+                  fontWeight: 700,
+                  letterSpacing: '-0.03em',
+                  color: 'rgba(212,168,83,0.85)',
+                }}
+              >
+                {formatGBP(auditState.monthlyBleed * 12)}
+              </span>
+              <span
+                style={{
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  fontSize: '9px',
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase' as const,
+                  color: 'rgba(212,168,83,0.5)',
+                  lineHeight: 1.5,
+                }}
+              >
+                Your diagnosed<br />annual exposure
+              </span>
+            </div>
+          )}
         </div>
 
         <div
@@ -173,7 +222,8 @@ export default function ContactForm() {
               }}
             >
               <form onSubmit={handleSubmit}>
-                <Field type="text" required placeholder="Clinic Name" value={clinicName} onChange={setClinicName} />
+                <Field type="text" required placeholder="Your Full Name" value={fullName} onChange={setFullName} />
+                <Field type="text" required placeholder="Clinic / Practice Name" value={clinicName} onChange={setClinicName} />
                 <Field type="number" required min="0" placeholder="Monthly High-Ticket Enquiries" value={monthlyEnquiries} onChange={setMonthlyEnquiries} />
                 <Field type="email" required placeholder="Owner / Director Email" value={email} onChange={setEmail} />
 

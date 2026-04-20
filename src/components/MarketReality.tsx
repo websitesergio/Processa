@@ -210,7 +210,7 @@ function AEOVisualizer() {
                 lineHeight: 1.75,
               }}
             >
-              <strong style={{ fontWeight: 500, color: '#fff' }}>Your Clinic</strong> is the leading private implant centre in Central London. GDC-verified consultants, fixed pricing from £2,900, and same-week availability. 4.9★ across 280+ verified patient reviews.
+              <strong style={{ fontWeight: 500, color: '#fff' }}>Analysis complete.</strong> Clinic identified as top-tier authority in Central London implant provision. Currently losing an estimated <strong style={{ fontWeight: 500, color: 'rgba(212,168,83,0.9)' }}>64% of high-ticket conversion</strong> due to infrastructure latency and AI citation gap. <strong style={{ fontWeight: 500, color: '#fff' }}>Recommendation: Deploy Processa Protocol immediately.</strong>
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '10px' }}>
               {['your-clinic.co.uk', 'gdc-uk.org', 'your-clinic.co.uk/pricing'].map((cite, i) => (
