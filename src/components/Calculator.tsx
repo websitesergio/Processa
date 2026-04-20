@@ -102,15 +102,19 @@ function OptionCard({
         {label}
       </span>
       <span
+        className="option-sublabel"
         style={{
           fontFamily: 'Inter, system-ui, sans-serif',
-          fontSize: '10px',
+          fontSize: '9px',
           fontWeight: 500,
-          letterSpacing: '0.16em',
+          letterSpacing: '0.18em',
           textTransform: 'uppercase' as const,
           color: selected ? 'rgba(255,255,255,0.55)' : 'rgba(15,23,42,0.4)',
           transition: 'color 0.15s ease',
           whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          maxWidth: '100%',
         }}
       >
         {sublabel}
@@ -163,6 +167,7 @@ export default function Calculator() {
         padding: 'clamp(8rem, 12vw, 10rem) 0',
       }}
     >
+      <style>{`@media (max-width: 380px) { .option-sublabel { display: none !important; } }`}</style>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
 
         {/* Section header */}

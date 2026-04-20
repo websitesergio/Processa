@@ -15,8 +15,9 @@ export default function Hero() {
 
   const enter = (n: number, delay = 0): React.CSSProperties => ({
     opacity: phase >= n ? 1 : 0,
-    transform: phase >= n ? 'translateY(0px)' : 'translateY(16px)',
+    transform: phase >= n ? 'translate3d(0,0,0)' : 'translate3d(0,16px,0)',
     transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+    willChange: phase < 4 ? 'opacity, transform' : 'auto',
   });
 
   return (
@@ -24,9 +25,10 @@ export default function Hero() {
       style={{
         background: '#ffffff',
         borderBottom: '1px solid rgba(15,23,42,0.08)',
-        minHeight: '92vh',
+        minHeight: '92svh',
         display: 'flex',
         alignItems: 'center',
+        contain: 'layout style',
       }}
     >
       <div

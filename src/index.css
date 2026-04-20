@@ -15,10 +15,12 @@
   html {
     scroll-behavior: smooth;
     overflow-x: clip;
+    overflow-y: scroll;
     max-width: 100%;
     /* Top overscroll bounce blends with white navbar on iOS */
     background-color: #ffffff;
     overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -43,6 +45,12 @@
     position: relative;
     /* Bottom overscroll bounce extends dark footer colour on iOS */
     background-color: #0f172a;
+  }
+
+  h1, h2 {
+    overflow-wrap: anywhere;
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 
   *:focus-visible {

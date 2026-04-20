@@ -1,10 +1,21 @@
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const onHome = location.pathname === '/';
   const [menuOpen, setMenuOpen] = useState(false);
+
+  function handleLogoClick(e: React.MouseEvent) {
+    if (onHome) {
+      e.preventDefault();
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      navigate('/');
+    }
+  }
 
   return (
     <>
@@ -44,7 +55,8 @@ export default function Navbar() {
         >
           {/* Logo */}
           <Link
-            to="/"
+            to={onHome ? '#contact' : '/'}
+            onClick={handleLogoClick}
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontStyle: 'italic',
@@ -54,7 +66,7 @@ export default function Navbar() {
               letterSpacing: '-0.02em',
               textDecoration: 'none',
               flexShrink: 0,
-            flex: '0 0 auto',
+              flex: '0 0 auto',
             }}
           >
             Processa
