@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import CookieConsent from './components/CookieConsent';
 import HomePage from './pages/HomePage';
 import DiagnosticPage from './pages/DiagnosticPage';
 import AccessPage from './pages/AccessPage';
 import RoadmapPage from './pages/RoadmapPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
 
 const AEO_FAQ_JSON_LD = {
   '@context': 'https://schema.org',
@@ -117,8 +120,11 @@ export default function App() {
         <Route path="/diagnostic" element={<DiagnosticPage />} />
         <Route path="/access" element={<AccessPage />} />
         <Route path="/roadmap" element={<RoadmapPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <CookieConsent />
     </div>
   );
 }

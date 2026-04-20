@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Loader2, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useInView } from '../lib/useInView';
 import { useAuditor, formatGBP } from '../lib/AuditorContext';
@@ -135,6 +136,7 @@ export default function ContactForm() {
   const [monthlyEnquiries, setMonthlyEnquiries] = useState('');
   const [email, setEmail] = useState('');
   const [challenge, setChallenge] = useState('');
+  const [consentChecked, setConsentChecked] = useState(false);
   const [formState, setFormState] = useState<FormState>('idle');
   const [toast, setToast] = useState<string | null>(null);
 
@@ -162,7 +164,7 @@ export default function ContactForm() {
     challenge: validate(challenge, { minLen: 20 }),
   };
 
-  const isFormValid = Object.values(errors).every((e) => e === null);
+  const isFormValid = Object.values(errors).every((e) => e === null) && consentChecked;
 
   const dismissToast = useCallback(() => setToast(null), []);
 
@@ -381,6 +383,34 @@ export default function ContactForm() {
                     />
                   </ValidatedField>
 
+                  {/* GDPR Consent */}
+                  <label
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '12px',
+                      marginBottom: '16px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={consentChecked}
+                      onChange={(e) => setConsentChecked(e.target.checked)}
+                      style={{ marginTop: '3px', flexShrink: 0, accentColor: '#F5F2EC', width: '14px', height: '14px', cursor: 'pointer' }}
+                    />
+                    <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '11px', fontWeight: 300, lineHeight: 1.7, color: 'rgba(245,242,236,0.5)' }}>
+                      I agree to the processing of my data in accordance with the{' '}
+                      <Link
+                        to="/privacy"
+                        style={{ color: 'rgba(245,242,236,0.8)', fontWeight: 400, textDecoration: 'underline', textUnderlineOffset: '2px', textDecorationColor: 'rgba(245,242,236,0.3)' }}
+                      >
+                        Privacy Policy
+                      </Link>
+                      .
+                    </span>
+                  </label>
+
                   <button
                     type="submit"
                     disabled={formState === 'loading' || !isFormValid}
@@ -429,15 +459,46 @@ export default function ContactForm() {
           </div>
 
           <div
-            className="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-2 mt-24 pt-8"
-            style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+            style={{
+              maxWidth: '1200px',
+              margin: '0 auto',
+              padding: '2rem',
+              marginTop: '4rem',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+              display: 'flex',
+              flexDirection: 'column' as const,
+              gap: '1rem',
+            }}
           >
-            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.1em', color: 'rgba(245,242,236,0.25)' }}>
-              &copy; 2026 Processa. Strategic Dental Infrastructure.
-            </p>
-            <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.06em', color: 'rgba(245,242,236,0.25)', marginTop: '1rem' }} className="md:mt-0">
-              marc@sergiodental.com &nbsp;&middot;&nbsp; Directed by Sergio
-            </p>
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.08em', color: 'rgba(245,242,236,0.22)', lineHeight: 1.8 }}>
+                &copy; 2026 Processa Advisory Ltd. All rights reserved.<br />
+                Registered in accordance with UK Data Protection standards.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                <Link
+                  to="/privacy"
+                  style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.1em', color: 'rgba(245,242,236,0.3)', textDecoration: 'none', transition: 'color 0.15s ease' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(245,242,236,0.6)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(245,242,236,0.3)'; }}
+                >
+                  Privacy Policy
+                </Link>
+                <span style={{ color: 'rgba(245,242,236,0.12)', fontSize: '10px' }}>&middot;</span>
+                <Link
+                  to="/terms"
+                  style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.1em', color: 'rgba(245,242,236,0.3)', textDecoration: 'none', transition: 'color 0.15s ease' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.color = 'rgba(245,242,236,0.6)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.color = 'rgba(245,242,236,0.3)'; }}
+                >
+                  Terms of Service
+                </Link>
+                <span style={{ color: 'rgba(245,242,236,0.12)', fontSize: '10px' }}>&middot;</span>
+                <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.06em', color: 'rgba(245,242,236,0.3)' }}>
+                  marc@sergiodental.com
+                </p>
+              </div>
+            </div>
           </div>
 
         </div>

@@ -1,5 +1,6 @@
 import { useId, useState, useCallback, useEffect } from 'react';
 import { X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useInView } from '../lib/useInView';
 import { useAuditor, formatGBP } from '../lib/AuditorContext';
@@ -160,6 +161,7 @@ export default function AccessPage() {
   const [form, setForm] = useState<FormFields>(INITIAL);
   const [status, setStatus] = useState<Status>('idle');
   const [touched, setTouched] = useState<TouchedFields>(INITIAL_TOUCHED);
+  const [consentChecked, setConsentChecked] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const uid = useId();
   const { state: auditState } = useAuditor();
@@ -191,7 +193,7 @@ export default function AccessPage() {
     problem_statement: validateMinLen(20)(form.problem_statement),
   };
 
-  const isFormValid = Object.values(errors).every((e) => e === null);
+  const isFormValid = Object.values(errors).every((e) => e === null) && consentChecked;
 
   const dismissToast = useCallback(() => setToast(null), []);
 
@@ -388,6 +390,34 @@ export default function AccessPage() {
                       </FieldGroup>
 
                       <div>
+                        {/* GDPR Consent */}
+                        <label
+                          style={{
+                            display: 'flex',
+                            alignItems: 'flex-start',
+                            gap: '12px',
+                            marginBottom: '18px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={consentChecked}
+                            onChange={(e) => setConsentChecked(e.target.checked)}
+                            style={{ marginTop: '3px', flexShrink: 0, accentColor: '#0f172a', width: '14px', height: '14px', cursor: 'pointer' }}
+                          />
+                          <span style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '12px', fontWeight: 300, lineHeight: 1.7, color: 'rgba(15,23,42,0.5)' }}>
+                            I agree to the processing of my data in accordance with the{' '}
+                            <Link
+                              to="/privacy"
+                              style={{ color: '#0f172a', fontWeight: 400, textDecoration: 'underline', textUnderlineOffset: '2px', textDecorationColor: 'rgba(15,23,42,0.3)' }}
+                            >
+                              Privacy Policy
+                            </Link>
+                            .
+                          </span>
+                        </label>
+
                         <button
                           type="submit"
                           disabled={status === 'submitting' || !isFormValid}
