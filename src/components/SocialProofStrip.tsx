@@ -1,3 +1,5 @@
+import { useInView } from '../lib/useInView';
+
 const STATS = [
   {
     value: '21×',
@@ -22,34 +24,79 @@ const STATS = [
 ] as const;
 
 export default function SocialProofStrip() {
-  return (
-    <section className="bg-slate-50 px-6 md:px-16 py-0">
-      <div className="max-w-7xl mx-auto">
-        <div className="border-t border-slate-200" />
+  const [ref, visible] = useInView<HTMLElement>({ threshold: 0.1 });
 
-        <div className="grid grid-cols-2 md:grid-cols-4">
+  return (
+    <section
+      ref={ref}
+      style={{
+        background: '#ffffff',
+        borderBottom: '1px solid rgba(15,23,42,0.08)',
+        padding: '0 2rem',
+      }}
+    >
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div
+          className="animate-start"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            ...(visible ? {
+              opacity: 1,
+              transform: 'translateY(0)',
+              transition: 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)',
+            } : {}),
+          }}
+        >
           {STATS.map((stat, i) => (
             <div
               key={stat.value}
-              className={[
-                'py-14 pr-8',
-                i > 0 ? 'pl-8 border-l border-slate-200' : '',
-              ].join(' ')}
+              style={{
+                padding: '3.5rem 2rem',
+                borderRight: i % 2 === 0 ? '1px solid rgba(15,23,42,0.08)' : 'none',
+                borderBottom: i < 2 ? '1px solid rgba(15,23,42,0.08)' : 'none',
+              }}
             >
-              <p className="font-serif font-semibold text-slate-900 text-[clamp(2rem,4vw,3.25rem)] leading-none tracking-tighter mb-4">
+              <p
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontWeight: 700,
+                  fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+                  lineHeight: 1,
+                  letterSpacing: '-0.04em',
+                  color: '#0f172a',
+                  marginBottom: '0.75rem',
+                }}
+              >
                 {stat.value}
               </p>
-              <p className="font-sans font-light text-[11px] uppercase tracking-widest text-slate-500 mb-1.5 leading-relaxed">
+              <p
+                style={{
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase' as const,
+                  color: '#0f172a',
+                  marginBottom: '0.5rem',
+                }}
+              >
                 {stat.label}
               </p>
-              <p className="font-sans font-light text-[10px] text-slate-400 leading-relaxed">
+              <p
+                style={{
+                  fontFamily: 'Inter, system-ui, sans-serif',
+                  fontSize: '0.9375rem',
+                  fontWeight: 400,
+                  color: '#475569',
+                  lineHeight: 1.6,
+                }}
+              >
                 {stat.sub}
               </p>
             </div>
           ))}
         </div>
-
-        <div className="border-b border-slate-200" />
       </div>
     </section>
   );

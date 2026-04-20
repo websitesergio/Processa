@@ -1,101 +1,140 @@
 import { useEffect, useState } from 'react';
-import { ArrowDown } from 'lucide-react';
 
 export default function Hero() {
   const [phase, setPhase] = useState(0);
 
   useEffect(() => {
     const timers = [
-      setTimeout(() => setPhase(1), 80),
-      setTimeout(() => setPhase(2), 260),
-      setTimeout(() => setPhase(3), 440),
-      setTimeout(() => setPhase(4), 620),
+      setTimeout(() => setPhase(1), 100),
+      setTimeout(() => setPhase(2), 400),
+      setTimeout(() => setPhase(3), 700),
+      setTimeout(() => setPhase(4), 1000),
     ];
     return () => timers.forEach(clearTimeout);
   }, []);
 
-  const visible = (n: number) => ({
+  const enter = (n: number, delay = 0): React.CSSProperties => ({
     opacity: phase >= n ? 1 : 0,
-    transform: phase >= n ? 'translateY(0px)' : 'translateY(24px)',
-    transition: 'opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+    transform: phase >= n ? 'translateY(0px)' : 'translateY(16px)',
+    transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
   });
 
   return (
     <section
-      className="mesh-gradient-light min-h-[90vh] flex items-center"
-      style={{ borderBottom: '1px solid rgba(15,23,42,0.06)' }}
+      style={{
+        background: '#ffffff',
+        borderBottom: '1px solid rgba(15,23,42,0.08)',
+        minHeight: '92vh',
+        display: 'flex',
+        alignItems: 'center',
+      }}
     >
-      <div className="max-w-6xl mx-auto px-6 py-36 w-full">
-        <div className="flex flex-col items-center text-center relative">
+      <div
+        style={{
+          maxWidth: '1100px',
+          margin: '0 auto',
+          padding: 'clamp(5rem,12vw,9rem) 2rem',
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+        }}
+      >
+        {/* Eyebrow */}
+        <p
+          style={{
+            ...enter(1),
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontSize: '11px',
+            fontWeight: 500,
+            letterSpacing: '0.26em',
+            textTransform: 'uppercase' as const,
+            color: 'rgba(15,23,42,0.45)',
+            marginBottom: '2.5rem',
+          }}
+        >
+          AI Patient Acquisition — Implant &amp; Invisalign Practices
+        </p>
 
-          <div
-            aria-hidden="true"
+        {/* Headline */}
+        <h1
+          style={{
+            ...enter(2),
+            fontFamily: "'Playfair Display', Georgia, serif",
+            fontWeight: 700,
+            fontSize: 'clamp(3rem, 7vw, 6.5rem)',
+            lineHeight: 1.0,
+            letterSpacing: '-0.04em',
+            color: '#0f172a',
+            maxWidth: '16ch',
+            marginBottom: '2rem',
+            fontFeatureSettings: "'liga' 1, 'kern' 1",
+          }}
+        >
+          Quantify Your Revenue Haemorrhage.
+        </h1>
+
+        {/* Subtitle */}
+        <p
+          style={{
+            ...enter(3),
+            fontFamily: 'Inter, system-ui, sans-serif',
+            fontSize: 'clamp(1.125rem, 2vw, 1.375rem)',
+            fontWeight: 400,
+            lineHeight: 1.7,
+            color: '#334155',
+            maxWidth: '52ch',
+            marginBottom: '3.5rem',
+          }}
+        >
+          A 60-second diagnostic for premier Invisalign &amp; Implant clinics. Calculate the exact revenue your slow response time costs you every year.
+        </p>
+
+        {/* CTA */}
+        <div style={enter(4)}>
+          <a
+            href="#calculator"
             style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              fontFamily: "'Playfair Display', Georgia, serif",
-              fontSize: 'clamp(12rem, 30vw, 28rem)',
-              fontWeight: 700,
-              color: 'rgba(15,23,42,0.018)',
-              lineHeight: 1,
-              letterSpacing: '-0.05em',
-              userSelect: 'none',
-              pointerEvents: 'none',
-              whiteSpace: 'nowrap',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: '#0f172a',
+              color: '#ffffff',
+              fontFamily: 'Inter, system-ui, sans-serif',
+              fontSize: '1rem',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase' as const,
+              padding: '1.25rem 3.5rem',
+              borderRadius: '9999px',
+              textDecoration: 'none',
+              transition: 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease',
+              boxShadow: '0 4px 20px rgba(15,23,42,0.22), 0 1px 4px rgba(15,23,42,0.12)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-3px)';
+              e.currentTarget.style.boxShadow = '0 12px 40px rgba(15,23,42,0.28), 0 4px 12px rgba(15,23,42,0.16)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 4px 20px rgba(15,23,42,0.22), 0 1px 4px rgba(15,23,42,0.12)';
             }}
           >
-            P
-          </div>
-
-          <p className="section-eyebrow mb-10" style={visible(1)}>
-            AI Patient Acquisition — Implant &amp; Invisalign Practices
-          </p>
-
-          <h1
-            className="font-serif font-bold text-slate-900 mb-8 max-w-4xl"
-            style={{
-              ...visible(2),
-              fontSize: 'clamp(2.8rem, 7vw, 5.5rem)',
-              lineHeight: 1.02,
-              letterSpacing: '-0.04em',
-              fontFeatureSettings: "'liga' 1, 'kern' 1",
-            }}
-          >
-            Stop losing high-ticket dental patients to slow response times.
-          </h1>
-
-          <p
-            className="text-slate-500 leading-relaxed max-w-xl mb-14"
-            style={{
-              ...visible(3),
-              fontSize: 'clamp(1rem, 1.5vw, 1.2rem)',
-              lineHeight: 1.85,
-              fontWeight: 300,
-            }}
-          >
-            We install the automated patient acquisition systems required for leading Implant &amp; Invisalign practices.
-          </p>
-
-          <div style={visible(4)}>
-            <a href="#calculator" className="btn-premium">
-              Calculate Revenue Leak
-              <ArrowDown className="w-3.5 h-3.5" />
-            </a>
-          </div>
-
-          <div
-            style={{
-              ...visible(4),
-              marginTop: '5rem',
-              width: '48px',
-              height: '1px',
-              background: 'rgba(15,23,42,0.15)',
-              borderRadius: '1px',
-            }}
-          />
+            Start Audit
+          </a>
         </div>
+
+        {/* Divider rule */}
+        <div
+          style={{
+            ...enter(4),
+            marginTop: '6rem',
+            width: '1px',
+            height: '64px',
+            background: 'linear-gradient(to bottom, rgba(15,23,42,0.18), transparent)',
+          }}
+        />
       </div>
     </section>
   );

@@ -6,7 +6,7 @@ const PHASES = [
     label: 'Phase I',
     title: 'The Strategic Audit',
     subtitle: 'Led by Marc',
-    body: 'We quantify your exact pipeline hemorrhage and map exactly where competitors are stealing your high-ticket leads.',
+    body: 'We quantify your exact pipeline haemorrhage and map precisely where competitors are capturing your high-ticket leads before you can respond.',
     large: true,
     accent: true,
   },
@@ -15,7 +15,7 @@ const PHASES = [
     label: 'Phase II',
     title: 'The Infrastructure Build',
     subtitle: 'Engineered by the Systems Team',
-    body: 'We construct the bespoke patient acquisition engine tailored specifically for your Implant and Invisalign services.',
+    body: 'We construct a bespoke patient acquisition engine tailored specifically for your Implant and Invisalign services.',
     large: false,
     accent: false,
   },
@@ -24,84 +24,138 @@ const PHASES = [
     label: 'Phase III',
     title: 'The 60-Second Routing',
     subtitle: 'Directed by Sergio',
-    body: 'Every new patient inquiry is automatically qualified and routed to your front desk in under 60 seconds. Guaranteed.',
+    body: 'Every new patient enquiry is automatically qualified and routed to your front desk in under 60 seconds. Guaranteed.',
     large: false,
     accent: false,
   },
 ];
 
 export default function Process() {
-  const [headerRef, headerVisible] = useInView<HTMLDivElement>({ threshold: 0.2 });
-  const [card0Ref, card0Visible] = useInView<HTMLDivElement>({ threshold: 0.12 });
-  const [card1Ref, card1Visible] = useInView<HTMLDivElement>({ threshold: 0.12 });
-  const [card2Ref, card2Visible] = useInView<HTMLDivElement>({ threshold: 0.12 });
+  const [headerRef, headerVisible] = useInView<HTMLDivElement>({ threshold: 0.15 });
+  const [card0Ref, card0Visible] = useInView<HTMLDivElement>({ threshold: 0.08 });
+  const [card1Ref, card1Visible] = useInView<HTMLDivElement>({ threshold: 0.08 });
+  const [card2Ref, card2Visible] = useInView<HTMLDivElement>({ threshold: 0.08 });
 
   const cardRefs = [card0Ref, card1Ref, card2Ref];
-  const cardVisibilities = [card0Visible, card1Visible, card2Visible];
+  const cardVisible = [card0Visible, card1Visible, card2Visible];
+
+  const enterStyle = (visible: boolean, delay = 0): React.CSSProperties =>
+    visible
+      ? {
+          opacity: 1,
+          transform: 'translateY(0)',
+          transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+        }
+      : {};
 
   return (
     <section
-      className="mesh-gradient-light py-32"
-      style={{ borderBottom: '1px solid rgba(15,23,42,0.06)' }}
+      style={{
+        background: '#ffffff',
+        borderBottom: '1px solid rgba(15,23,42,0.08)',
+        padding: 'clamp(5rem,10vw,9rem) 0',
+      }}
     >
-      <div className="max-w-6xl mx-auto px-6">
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem' }}>
+
+        {/* Header */}
         <div
           ref={headerRef}
-          className="max-w-2xl mb-16 animate-start"
-          style={headerVisible ? {
-            opacity: 1,
-            transform: 'translateY(0)',
-            transition: 'opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1)',
-          } : {}}
+          className="animate-start"
+          style={{
+            maxWidth: '640px',
+            marginBottom: '4rem',
+            ...enterStyle(headerVisible),
+          }}
         >
-          <p className="section-eyebrow mb-6">The Protocol</p>
-          <h2
-            className="font-serif font-bold text-slate-900 mt-4"
+          <p
             style={{
-              fontSize: 'clamp(2rem, 4vw, 3rem)',
-              lineHeight: 1.06,
-              letterSpacing: '-0.03em',
-              fontFeatureSettings: "'liga' 1, 'kern' 1",
+              fontFamily: 'Inter, system-ui, sans-serif',
+              fontSize: '11px',
+              fontWeight: 500,
+              letterSpacing: '0.26em',
+              textTransform: 'uppercase' as const,
+              color: 'rgba(15,23,42,0.45)',
+              marginBottom: '1.25rem',
+            }}
+          >
+            The Protocol
+          </p>
+          <h2
+            style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontWeight: 700,
+              fontSize: 'clamp(2.2rem, 5vw, 3.75rem)',
+              lineHeight: 1.05,
+              letterSpacing: '-0.04em',
+              color: '#0f172a',
+              marginBottom: '1.25rem',
             }}
           >
             The 14-Day Revenue Recovery Protocol
           </h2>
           <p
-            className="text-slate-500 mt-5"
-            style={{ fontSize: '1rem', fontWeight: 300, lineHeight: 1.85, maxWidth: '52ch' }}
+            style={{
+              fontFamily: 'Inter, system-ui, sans-serif',
+              fontSize: '1.125rem',
+              fontWeight: 400,
+              lineHeight: 1.75,
+              color: '#334155',
+              maxWidth: '52ch',
+            }}
           >
             We do not sell software. We install high-converting infrastructure. Here is exactly how we deploy it.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 lg:grid-rows-2 gap-4 lg:gap-5" style={{ minHeight: '540px' }}>
+        {/* Bento grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateRows: 'auto auto',
+            gap: '1.25rem',
+          }}
+        >
           {PHASES.map(({ phase, label, title, subtitle, body, large, accent }, i) => (
             <div
               key={label}
               ref={cardRefs[i]}
-              className={[
-                'glass-card glass-card-hover rounded-3xl relative overflow-hidden animate-start',
-                large ? 'lg:row-span-2 lg:col-span-1' : '',
-              ].join(' ')}
+              className="animate-start"
               style={{
-                ...(cardVisibilities[i] ? {
-                  opacity: 1,
-                  transform: 'translateY(0)',
-                  transition: `opacity 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms`,
-                } : {}),
-                padding: large ? 'clamp(2rem, 4vw, 3rem)' : 'clamp(1.75rem, 3vw, 2.25rem)',
+                gridRow: large ? 'span 2' : 'auto',
+                background: '#ffffff',
+                border: '1px solid rgba(15,23,42,0.09)',
+                borderRadius: '2rem',
+                padding: large ? 'clamp(2.5rem,5vw,3.5rem)' : 'clamp(2rem,4vw,2.75rem)',
+                boxShadow: '0 2px 20px rgba(15,23,42,0.06), 0 1px 4px rgba(15,23,42,0.04)',
+                position: 'relative' as const,
+                overflow: 'hidden' as const,
+                display: 'flex',
+                flexDirection: 'column' as const,
+                transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+                ...enterStyle(cardVisible[i], i * 100),
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.boxShadow = '0 12px 48px rgba(15,23,42,0.12), 0 4px 16px rgba(15,23,42,0.07)';
+                e.currentTarget.style.transform = 'translateY(-3px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.boxShadow = '0 2px 20px rgba(15,23,42,0.06), 0 1px 4px rgba(15,23,42,0.04)';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
+              {/* Ghost numeral */}
               <div
                 aria-hidden="true"
                 style={{
                   position: 'absolute',
-                  bottom: '-0.5rem',
+                  bottom: '-1rem',
                   right: '-0.5rem',
                   fontFamily: "'Playfair Display', Georgia, serif",
-                  fontSize: large ? '10rem' : '7rem',
+                  fontSize: large ? '11rem' : '8rem',
                   fontWeight: 700,
-                  color: 'rgba(15,23,42,0.032)',
+                  color: 'rgba(15,23,42,0.04)',
                   lineHeight: 1,
                   letterSpacing: '-0.05em',
                   userSelect: 'none',
@@ -111,21 +165,35 @@ export default function Process() {
                 {phase}
               </div>
 
-              <div className="relative z-10 h-full flex flex-col">
-                <div className="flex items-start justify-between mb-6">
-                  <p className="label-tag">{label}</p>
+              <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
+
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '2rem' }}>
+                  <span
+                    style={{
+                      fontFamily: 'Inter, system-ui, sans-serif',
+                      fontSize: '9px',
+                      fontWeight: 500,
+                      letterSpacing: '0.22em',
+                      textTransform: 'uppercase' as const,
+                      color: 'rgba(15,23,42,0.4)',
+                    }}
+                  >
+                    {label}
+                  </span>
                   {accent && (
-                    <div style={{ width: '24px', height: '2px', background: '#D4A853', borderRadius: '1px' }} />
+                    <div style={{ width: '28px', height: '2px', background: '#0f172a', borderRadius: '1px' }} />
                   )}
                 </div>
 
                 <h3
-                  className="font-serif font-bold text-slate-900 mb-3"
                   style={{
-                    fontSize: large ? 'clamp(1.6rem, 2.5vw, 2.2rem)' : 'clamp(1.3rem, 2vw, 1.6rem)',
-                    lineHeight: 1.08,
+                    fontFamily: "'Playfair Display', Georgia, serif",
+                    fontWeight: 700,
+                    fontSize: large ? 'clamp(1.75rem, 3vw, 2.5rem)' : 'clamp(1.4rem, 2.5vw, 1.875rem)',
+                    lineHeight: 1.1,
                     letterSpacing: '-0.03em',
-                    fontFeatureSettings: "'liga' 1, 'kern' 1",
+                    color: '#0f172a',
+                    marginBottom: '0.75rem',
                   }}
                 >
                   {title}
@@ -134,33 +202,62 @@ export default function Process() {
                 <p
                   style={{
                     fontFamily: 'Inter, system-ui, sans-serif',
-                    fontSize: '9px',
-                    fontWeight: 400,
-                    letterSpacing: '0.28em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(15,23,42,0.38)',
-                    marginBottom: '1.25rem',
+                    fontSize: '10px',
+                    fontWeight: 500,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase' as const,
+                    color: 'rgba(15,23,42,0.4)',
+                    marginBottom: '1.5rem',
                   }}
                 >
                   {subtitle}
                 </p>
 
-                <div style={{ width: '32px', height: '1px', background: 'rgba(15,23,42,0.15)', marginBottom: '1.5rem' }} />
+                <div style={{ width: '36px', height: '1px', background: 'rgba(15,23,42,0.15)', marginBottom: '1.75rem' }} />
 
                 <p
-                  className="text-slate-500 mt-auto"
                   style={{
-                    fontSize: large ? '1rem' : '0.9rem',
-                    fontWeight: 300,
-                    lineHeight: 1.85,
+                    fontFamily: 'Inter, system-ui, sans-serif',
+                    fontSize: large ? '1.125rem' : '1rem',
+                    fontWeight: 400,
+                    lineHeight: 1.75,
+                    color: '#475569',
+                    flex: 1,
                   }}
                 >
                   {body}
                 </p>
 
                 {large && (
-                  <div className="mt-10">
-                    <a href="#contact" className="btn-premium" style={{ padding: '13px 28px', fontSize: '10px' }}>
+                  <div style={{ marginTop: '2.5rem' }}>
+                    <a
+                      href="#contact"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: '#0f172a',
+                        color: '#ffffff',
+                        fontFamily: 'Inter, system-ui, sans-serif',
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        letterSpacing: '0.12em',
+                        textTransform: 'uppercase' as const,
+                        padding: '14px 28px',
+                        borderRadius: '9999px',
+                        textDecoration: 'none',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                        boxShadow: '0 2px 12px rgba(15,23,42,0.18)',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(15,23,42,0.24)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 12px rgba(15,23,42,0.18)';
+                      }}
+                    >
                       Begin Qualification
                     </a>
                   </div>
