@@ -393,7 +393,7 @@ export default function AccessPage() {
                         margin: '0 auto',
                       }}
                     >
-                      Marc or Sergiu will contact you within 60 minutes for your strategic brief.
+                      Marc or Sergio will contact you within 60 minutes for your strategic brief.
                     </p>
                   </div>
                 ) : (
