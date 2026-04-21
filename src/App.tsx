@@ -66,11 +66,16 @@ const AEO_FAQ_JSON_LD = {
 
 const ORG_JSON_LD = {
   '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  '@id': 'https://processa.co/#organization',
+  '@type': 'Organization',
+  '@id': 'https://sergiogroup.org/#organization',
   name: 'Processa',
+  legalName: 'Processa Advisory',
   description: 'Strategic advisory firm delivering AI patient acquisition infrastructure for elite private dental practices across Europe. Specialists in AEO, implant lead generation, and automated patient routing.',
-  url: 'https://processa.co',
+  url: 'https://sergiogroup.org',
+  sameAs: [
+    'https://sergiodental.com',
+    'https://sergiosystems.com',
+  ],
   areaServed: { '@type': 'Place', name: 'Europe' },
   knowsAbout: [
     'Answer Engine Optimisation',
