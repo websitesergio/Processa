@@ -111,10 +111,8 @@ function OptionCard({
           textTransform: 'uppercase' as const,
           color: selected ? 'rgba(255,255,255,0.55)' : 'rgba(15,23,42,0.4)',
           transition: 'color 0.15s ease',
-          whiteSpace: 'nowrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
           maxWidth: '100%',
+          lineHeight: 1.3,
         }}
       >
         {sublabel}

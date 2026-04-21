@@ -33,7 +33,8 @@ export default function CookieConsent() {
       aria-label="Cookie consent"
       style={{
         position: 'fixed',
-        bottom: 'env(safe-area-inset-bottom, 20px)',
+        bottom: 'env(safe-area-inset-bottom, 24px)',
+        boxSizing: 'border-box' as const,
         left: '16px',
         right: '16px',
         margin: '0 auto',
