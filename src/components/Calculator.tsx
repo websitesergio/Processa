@@ -90,10 +90,11 @@ function OptionCard({
     >
       <span
         style={{
-          fontFamily: "'Playfair Display', Georgia, serif",
-          fontWeight: 700,
-          fontSize: 'clamp(1.1rem, 2.2vw, 1.5rem)',
-          letterSpacing: '-0.03em',
+          fontFamily: 'Inter, system-ui, sans-serif',
+          fontWeight: 800,
+          fontSize: 'clamp(1rem, 2.2vw, 1.375rem)',
+          letterSpacing: '0.04em',
+          textTransform: 'uppercase' as const,
           lineHeight: 1,
           color: selected ? '#ffffff' : '#0f172a',
           transition: 'color 0.15s ease',
@@ -106,7 +107,7 @@ function OptionCard({
         style={{
           fontFamily: 'Inter, system-ui, sans-serif',
           fontSize: '10px',
-          fontWeight: 400,
+          fontWeight: 500,
           letterSpacing: '0.02em',
           color: selected ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.38)',
           transition: 'color 0.15s ease',
