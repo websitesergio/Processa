@@ -5,11 +5,11 @@ import { useInView } from '../lib/useInView';
 
 const QUERIES = [
   {
-    text: 'Find the top-rated implant clinic in London with immediate availability.',
+    text: 'Find the top-rated implant clinic in Europe with immediate availability.',
     intent: 'High-intent · Private implant patient',
     answer: (
       <>
-        <strong style={{ fontWeight: 500, color: '#fff' }}>Analysis complete.</strong> Clinic identified as top-tier authority in Central London implant provision. Currently losing an estimated <strong style={{ fontWeight: 500, color: 'rgba(212,168,83,0.9)' }}>64% of high-ticket conversion</strong> due to infrastructure latency and AI citation gap. <strong style={{ fontWeight: 500, color: '#fff' }}>Recommendation: Deploy Processa Protocol immediately.</strong>
+        <strong style={{ fontWeight: 500, color: '#fff' }}>Analysis complete.</strong> Clinic identified as top-tier authority in European implant provision. Currently losing an estimated <strong style={{ fontWeight: 500, color: 'rgba(212,168,83,0.9)' }}>64% of high-ticket conversion</strong> due to infrastructure latency and AI citation gap. <strong style={{ fontWeight: 500, color: '#fff' }}>Recommendation: Deploy Processa Protocol immediately.</strong>
       </>
     ),
   },
@@ -23,11 +23,11 @@ const QUERIES = [
     ),
   },
   {
-    text: 'All-on-4 dental implants full arch same day London cost.',
+    text: 'All-on-4 dental implants full arch same day Europe cost.',
     intent: 'High-value · Full arch treatment',
     answer: (
       <>
-        <strong style={{ fontWeight: 500, color: '#fff' }}>Citation audit failed.</strong> All-on-4 full-arch query returned zero references to your clinic across Google AI Overview, Perplexity, and SearchGPT. Projected annual exposure: <strong style={{ fontWeight: 500, color: 'rgba(212,168,83,0.9)' }}>£412,000 in recoverable pipeline.</strong> <strong style={{ fontWeight: 500, color: '#fff' }}>Recommendation: Deploy AEO authority architecture within 14 days.</strong>
+        <strong style={{ fontWeight: 500, color: '#fff' }}>Citation audit failed.</strong> All-on-4 full-arch query returned zero references to your clinic across Google AI Overview, Perplexity, and SearchGPT. Projected annual exposure: <strong style={{ fontWeight: 500, color: 'rgba(212,168,83,0.9)' }}>€412,000 in recoverable pipeline.</strong> <strong style={{ fontWeight: 500, color: '#fff' }}>Recommendation: Deploy AEO authority architecture within 14 days.</strong>
       </>
     ),
   },

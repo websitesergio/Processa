@@ -3,7 +3,7 @@ const LAST_UPDATED = '20 April 2026';
 const SECTIONS = [
   {
     title: 'Who We Are',
-    body: `Processa Advisory Ltd ("Processa", "we", "us", "our") is a strategic advisory firm registered in England and Wales. We deliver AI patient acquisition infrastructure to private dental practices. Our registered address and Data Protection Officer contact details are available upon written request to marc@sergiodental.com.\n\nWe are committed to protecting and respecting your privacy in accordance with the UK General Data Protection Regulation (UK GDPR) and the Data Protection Act 2018.`,
+    body: `Processa Advisory — European Operations ("Processa", "we", "us", "our") is a strategic advisory firm. We deliver AI patient acquisition infrastructure to private dental practices across Europe. Our Data Protection Officer contact details are available upon written request to marc@sergiodental.com.\n\nWe are committed to protecting and respecting your privacy in accordance with the EU General Data Protection Regulation (EU GDPR) (Regulation (EU) 2016/679).`,
   },
   {
     title: 'What Data We Collect',
@@ -11,31 +11,31 @@ const SECTIONS = [
   },
   {
     title: 'How We Use Your Data',
-    body: `We process your personal data for the following purposes:\n\n• To assess your application and determine suitability for our advisory engagement.\n• To contact you regarding your application and the outcome of our qualification review.\n• To fulfil our contractual obligations where an engagement is agreed.\n• To comply with our legal and regulatory obligations under UK law.\n• To improve our diagnostic tools and service offering using aggregated, anonymised data.\n\nWe do not use your personal data for unsolicited marketing communications. We will never sell, rent, or trade your personal data to third parties.`,
+    body: `We process your personal data for the following purposes:\n\n• To assess your application and determine suitability for our advisory engagement.\n• To contact you regarding your application and the outcome of our qualification review.\n• To fulfil our contractual obligations where an engagement is agreed.\n• To comply with our legal and regulatory obligations under EU law.\n• To improve our diagnostic tools and service offering using aggregated, anonymised data.\n\nWe do not use your personal data for unsolicited marketing communications. We will never sell, rent, or trade your personal data to third parties.`,
   },
   {
     title: 'Legal Basis for Processing',
-    body: `We process your personal data on the following lawful bases under UK GDPR Article 6:\n\n• Legitimate Interests (Article 6(1)(f)): Processing application data to evaluate suitability for our advisory services, where our interests are not overridden by your data protection rights.\n• Contractual Necessity (Article 6(1)(b)): Processing required to perform a contract with you or to take steps prior to entering a contract at your request.\n• Legal Obligation (Article 6(1)(c)): Where processing is necessary to comply with applicable UK law.\n• Consent (Article 6(1)(a)): Where you have provided explicit consent via the consent checkbox on our application forms. You may withdraw this consent at any time without affecting the lawfulness of prior processing.`,
+    body: `We process your personal data on the following lawful bases under EU GDPR Article 6:\n\n• Legitimate Interests (Article 6(1)(f)): Processing application data to evaluate suitability for our advisory services, where our interests are not overridden by your data protection rights.\n• Contractual Necessity (Article 6(1)(b)): Processing required to perform a contract with you or to take steps prior to entering a contract at your request.\n• Legal Obligation (Article 6(1)(c)): Where processing is necessary to comply with applicable EU law.\n• Consent (Article 6(1)(a)): Where you have provided explicit consent via the consent checkbox on our application forms. You may withdraw this consent at any time without affecting the lawfulness of prior processing.`,
   },
   {
     title: 'Data Security & Encryption',
-    body: `We take the security of your personal data seriously and have implemented appropriate technical and organisational measures in accordance with UK GDPR Article 32.\n\n• All data is transmitted over encrypted HTTPS connections using TLS 1.2 or higher.\n• Application data is stored in a secure, SOC 2 Type II certified cloud database infrastructure (Supabase / AWS eu-west-2 region, London).\n• Data at rest is encrypted using AES-256 encryption.\n• Access to personal data is restricted to authorised personnel only, operating on a strict need-to-know basis.\n• We conduct periodic security reviews and maintain incident response procedures in compliance with UK GDPR Article 33 notification obligations.\n\nDespite these measures, no transmission over the internet is entirely secure. If you have reason to believe your interaction with us is no longer secure, please notify us immediately at marc@sergiodental.com.`,
+    body: `We take the security of your personal data seriously and have implemented appropriate technical and organisational measures in accordance with EU GDPR Article 32.\n\n• All data is transmitted over encrypted HTTPS connections using TLS 1.2 or higher.\n• Application data is stored in a secure, SOC 2 Type II certified cloud database infrastructure (Supabase / AWS eu-west-1 region, Europe).\n• Data at rest is encrypted using AES-256 encryption.\n• Access to personal data is restricted to authorised personnel only, operating on a strict need-to-know basis.\n• We conduct periodic security reviews and maintain incident response procedures in compliance with EU GDPR Article 33 notification obligations.\n\nDespite these measures, no transmission over the internet is entirely secure. If you have reason to believe your interaction with us is no longer secure, please notify us immediately at marc@sergiodental.com.`,
   },
   {
     title: 'Data Retention',
-    body: `We retain personal data only for as long as necessary to fulfil the purposes outlined in this Policy:\n\n• Application data from enquirers who do not proceed to engagement: retained for 12 months from the date of submission, then securely deleted.\n• Data relating to active or completed engagements: retained for 7 years from the end of the engagement, in accordance with UK Companies Act record-keeping obligations.\n• Anonymised, aggregated diagnostic data may be retained indefinitely for service improvement purposes.\n\nUpon expiry of the applicable retention period, data is permanently deleted or irreversibly anonymised.`,
+    body: `We retain personal data only for as long as necessary to fulfil the purposes outlined in this Policy:\n\n• Application data from enquirers who do not proceed to engagement: retained for 12 months from the date of submission, then securely deleted.\n• Data relating to active or completed engagements: retained for 7 years from the end of the engagement, in accordance with applicable EU record-keeping obligations.\n• Anonymised, aggregated diagnostic data may be retained indefinitely for service improvement purposes.\n\nUpon expiry of the applicable retention period, data is permanently deleted or irreversibly anonymised.`,
   },
   {
     title: 'Cookies & Tracking',
     body: `Our website uses essential cookies required for site functionality and, where you have consented, analytics cookies to understand how visitors interact with our diagnostic tools.\n\nEssential cookies: These are strictly necessary for the website to operate and cannot be declined. They include session management and security tokens.\n\nAnalytics cookies: Used to measure engagement with our diagnostic calculator and content. These cookies collect anonymised data and are only placed following your explicit consent via our cookie consent banner.\n\nYou may withdraw your cookie consent at any time by clearing your browser's local storage. This will cause the consent banner to reappear on your next visit.`,
   },
   {
-    title: 'Your Rights Under UK GDPR',
-    body: `You have the following rights in relation to your personal data under UK GDPR:\n\n• Right of Access (Article 15): To request a copy of the personal data we hold about you.\n• Right to Rectification (Article 16): To request correction of inaccurate or incomplete data.\n• Right to Erasure (Article 17): To request deletion of your data, subject to our legal obligations.\n• Right to Restrict Processing (Article 18): To request that we limit how we use your data.\n• Right to Data Portability (Article 20): To receive your data in a structured, machine-readable format.\n• Right to Object (Article 21): To object to processing based on legitimate interests.\n• Rights in Relation to Automated Decision-Making (Article 22): We do not make solely automated decisions with significant legal effects.\n\nTo exercise any of these rights, submit a written request to marc@sergiodental.com. We will respond within one calendar month in accordance with UK GDPR Article 12.`,
+    title: 'Your Rights Under EU GDPR',
+    body: `You have the following rights in relation to your personal data under EU GDPR:\n\n• Right of Access (Article 15): To request a copy of the personal data we hold about you.\n• Right to Rectification (Article 16): To request correction of inaccurate or incomplete data.\n• Right to Erasure (Article 17): To request deletion of your data, subject to our legal obligations.\n• Right to Restrict Processing (Article 18): To request that we limit how we use your data.\n• Right to Data Portability (Article 20): To receive your data in a structured, machine-readable format.\n• Right to Object (Article 21): To object to processing based on legitimate interests.\n• Rights in Relation to Automated Decision-Making (Article 22): We do not make solely automated decisions with significant legal effects.\n\nTo exercise any of these rights, submit a written request to marc@sergiodental.com. We will respond within one calendar month in accordance with EU GDPR Article 12.`,
   },
   {
     title: 'Third-Party Services',
-    body: `We use the following third-party services that may process personal data on our behalf as data processors:\n\n• Supabase Inc. (database infrastructure): Subject to EU Standard Contractual Clauses adapted for UK GDPR. Data stored in AWS eu-west-2 (London).\n• Netlify Inc. (website hosting): Processes server access logs. Privacy policy available at netlify.com/privacy.\n\nAll third-party processors are bound by Data Processing Agreements that comply with UK GDPR Chapter V requirements for international transfers where applicable.`,
+    body: `We use the following third-party services that may process personal data on our behalf as data processors:\n\n• Supabase Inc. (database infrastructure): Subject to EU Standard Contractual Clauses. Data stored in AWS eu-west-1 (Europe).\n• Netlify Inc. (website hosting): Processes server access logs. Privacy policy available at netlify.com/privacy.\n\nAll third-party processors are bound by Data Processing Agreements that comply with EU GDPR Chapter V requirements for international transfers where applicable.`,
   },
   {
     title: 'Changes to This Policy',
@@ -43,7 +43,7 @@ const SECTIONS = [
   },
   {
     title: 'Contact & Complaints',
-    body: `For all privacy-related enquiries or to exercise your data subject rights, contact us at:\n\nProcessa Advisory Ltd\nEmail: marc@sergiodental.com\n\nIf you are not satisfied with our response, you have the right to lodge a complaint with the Information Commissioner's Office (ICO), the UK supervisory authority for data protection:\n\nInformation Commissioner's Office\nWycliffe House, Water Lane, Wilmslow, Cheshire, SK9 5AF\nTelephone: 0303 123 1113\nWebsite: ico.org.uk`,
+    body: `For all privacy-related enquiries or to exercise your data subject rights, contact us at:\n\nProcessa Advisory — European Operations\nEmail: marc@sergiodental.com\n\nIf you are not satisfied with our response, you have the right to lodge a complaint with the supervisory authority in your EU member state. A full list of EU data protection authorities is available at edpb.europa.eu.`,
   },
 ];
 
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '13px', fontWeight: 300, color: 'rgba(15,23,42,0.5)', lineHeight: 1.7 }}>
-            Last updated: {LAST_UPDATED} &nbsp;&middot;&nbsp; Processa Advisory Ltd &nbsp;&middot;&nbsp; UK GDPR Compliant
+            Last updated: {LAST_UPDATED} &nbsp;&middot;&nbsp; Processa Advisory &nbsp;&middot;&nbsp; EU GDPR Compliant
           </p>
         </div>
       </section>
@@ -98,7 +98,7 @@ export default function PrivacyPage() {
               borderBottom: '1px solid rgba(15,23,42,0.07)',
             }}
           >
-            This Privacy Policy explains how Processa Advisory Ltd collects, processes, stores, and protects your personal data when you visit our website or submit an application for our advisory services. Please read this document carefully. By using this website you confirm that you have read and understood this Policy.
+            This Privacy Policy explains how Processa Advisory collects, processes, stores, and protects your personal data when you visit our website or submit an application for our advisory services. Please read this document carefully. By using this website you confirm that you have read and understood this Policy.
           </p>
 
           {/* Sections */}
@@ -171,7 +171,7 @@ export default function PrivacyPage() {
         }}
       >
         <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.1em', color: 'rgba(15,23,42,0.3)' }}>
-          &copy; 2026 Processa Advisory Ltd. Registered in England and Wales. UK Data Protection Act 2018 compliant.
+          &copy; 2026 Processa Advisory — European Operations. EU GDPR Compliant.
         </p>
       </section>
 

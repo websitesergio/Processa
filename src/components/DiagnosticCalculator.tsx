@@ -19,11 +19,11 @@ const RESPONSE_MULTIPLIERS: Record<number, number> = {
   5: 0.78,
 };
 
-function formatGBP(n: number): string {
+function formatEUR(n: number): string {
   if (n >= 1_000_000) {
-    return '£' + (n / 1_000_000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+    return '€' + (n / 1_000_000).toFixed(2).replace(/\.?0+$/, '') + 'M';
   }
-  return '£' + Math.round(n).toLocaleString('en-GB');
+  return '€' + Math.round(n).toLocaleString('en-EU');
 }
 
 interface SliderFieldProps {
@@ -102,7 +102,7 @@ export default function DiagnosticCalculator() {
             Quantify Your Annual<br />Pipeline Hemorrhage.
           </h2>
           <p className="font-sans font-light text-slate-500 text-base leading-[1.9] max-w-[48ch]">
-            Drag the sliders. The figure updates in real time based on your Lead Velocity and current Patient Acquisition Cost (PAC) exposure. The average practice we audit has lost £168,000 in recoverable pipeline in the past 12 months.
+            Drag the sliders. The figure updates in real time based on your Lead Velocity and current Patient Acquisition Cost (PAC) exposure. The average practice we audit has lost €168,000 in recoverable pipeline in the past 12 months.
           </p>
         </div>
 
@@ -137,7 +137,7 @@ export default function DiagnosticCalculator() {
                 Calculation basis
               </p>
               <p className="font-sans font-light text-[11px] text-slate-400 leading-[1.85]">
-                Average treatment value: £3,800 (implant/Invisalign blend). Lead attrition rate derived from MIT Sloan / HBR Lead Response Study (2024). Monthly leads × attrition coefficient × ATV × 12.
+                Average treatment value: €3,800 (implant/Invisalign blend). Lead attrition rate derived from MIT Sloan / HBR Lead Response Study (2024). Monthly leads × attrition coefficient × ATV × 12.
               </p>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function DiagnosticCalculator() {
               className="font-serif font-semibold text-blue-700 leading-none tracking-[-0.04em] text-[clamp(3.5rem,10vw,8rem)] transition-all duration-500 mb-4"
               style={{ fontVariantNumeric: 'tabular-nums' }}
             >
-              {formatGBP(annualLeak)}
+              {formatEUR(annualLeak)}
             </p>
 
             <p className="font-sans font-light text-[11px] text-slate-400 mb-10 leading-relaxed">
@@ -173,7 +173,7 @@ export default function DiagnosticCalculator() {
                     Monthly Revenue Cost
                   </p>
                   <p className="font-serif text-slate-900 text-xl tracking-tight">
-                    {formatGBP(annualLeak / 12)}
+                    {formatEUR(annualLeak / 12)}
                   </p>
                 </div>
                 <div>

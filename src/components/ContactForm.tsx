@@ -545,7 +545,7 @@ export default function ContactForm() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
               <p style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '10px', fontWeight: 300, letterSpacing: '0.08em', color: 'rgba(245,242,236,0.22)', lineHeight: 1.8 }}>
                 &copy; 2026 Processa Advisory Ltd. All rights reserved.<br />
-                Registered in accordance with UK Data Protection standards.
+                Registered in accordance with European GDPR Standards.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                 <Link

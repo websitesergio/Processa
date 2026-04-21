@@ -18,7 +18,7 @@ const AEO_FAQ_JSON_LD = {
       name: 'How do I get my dental clinic to appear in AI search results like ChatGPT and Google AI Overviews?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Getting a dental clinic cited in AI search results requires Answer Engine Optimisation (AEO) — a specialised discipline distinct from traditional SEO. AI engines cite practices that have structured, authoritative digital content, verified GDC credentials, consistent NAP data, and semantic schema markup. Processa builds this infrastructure for elite Implant and Invisalign practices in London.',
+        text: 'Getting a dental clinic cited in AI search results requires Answer Engine Optimisation (AEO) — a specialised discipline distinct from traditional SEO. AI engines cite practices that have structured, authoritative digital content, verified credentials, consistent NAP data, and semantic schema markup. Processa builds this infrastructure for elite Implant and Invisalign practices across Europe.',
       },
     },
     {
@@ -50,7 +50,7 @@ const AEO_FAQ_JSON_LD = {
       name: 'What is the cost of slow response times for a dental clinic?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Research from Harvard Business Review (2024) shows a 391% higher conversion probability when a dental enquiry is contacted within 5 minutes versus 30 minutes. For a practice receiving 40 monthly high-ticket enquiries at £3,500 LTV, a 12-hour average response time represents an estimated £20,000–£40,000 in annual recoverable revenue lost to competitors.',
+        text: 'Research from Harvard Business Review (2024) shows a 391% higher conversion probability when a dental enquiry is contacted within 5 minutes versus 30 minutes. For a practice receiving 40 monthly high-ticket enquiries at €3,500 LTV, a 12-hour average response time represents an estimated €20,000–€40,000 in annual recoverable revenue lost to competitors.',
       },
     },
     {
@@ -69,9 +69,9 @@ const ORG_JSON_LD = {
   '@type': 'ProfessionalService',
   '@id': 'https://processa.co/#organization',
   name: 'Processa',
-  description: 'Strategic advisory firm delivering AI patient acquisition infrastructure for elite private dental practices in London. Specialists in AEO, implant lead generation, and automated patient routing.',
+  description: 'Strategic advisory firm delivering AI patient acquisition infrastructure for elite private dental practices across Europe. Specialists in AEO, implant lead generation, and automated patient routing.',
   url: 'https://processa.co',
-  areaServed: { '@type': 'City', name: 'London' },
+  areaServed: { '@type': 'Place', name: 'Europe' },
   knowsAbout: [
     'Answer Engine Optimisation',
     'Dental Patient Acquisition',

@@ -14,7 +14,7 @@ type Stat = {
 };
 
 const STATS: Stat[] = [
-  { target: 1.2,  prefix: '£',  suffix: 'M',   decimals: 1, label: 'Leaked Annual Revenue' },
+  { target: 1.2,  prefix: '€',  suffix: 'M',   decimals: 1, label: 'Leaked Annual Revenue' },
   { target: 47,                  suffix: 'k',                label: 'Enquiries Managed Monthly' },
   { target: 60,                  suffix: 'sec',              label: 'Response Guarantee' },
   { target: 92,                  suffix: '%',                label: 'Conversion Optimisation Gain' },

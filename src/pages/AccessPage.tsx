@@ -144,7 +144,7 @@ type Status = 'idle' | 'submitting' | 'success';
 const CRITERIA = [
   'Implant or Invisalign practices only',
   'Minimum 5 years in operation',
-  'London or South-East catchment',
+  'European market operations',
   'Practice owner must receive the audit directly',
 ];
 

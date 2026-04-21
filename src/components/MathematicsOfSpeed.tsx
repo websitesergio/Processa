@@ -33,17 +33,17 @@ const BREAKDOWN = [
   {
     label: 'Patient Acquisition Cost (PAC)',
     dark: 'At <5 min response',
-    light: '£320 per new patient',
+    light: '€320 per new patient',
   },
   {
     label: 'PAC at >60 min response',
     dark: 'Effective cost',
-    light: '£1,290 per new patient',
+    light: '€1,290 per new patient',
   },
   {
     label: 'Capital Efficiency Delta',
     dark: 'Annual impact',
-    light: '£97,000 per 100 monthly leads',
+    light: '€97,000 per 100 monthly leads',
   },
 ] as const;
 
