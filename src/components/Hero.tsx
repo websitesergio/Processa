@@ -22,6 +22,7 @@ export default function Hero() {
 
   return (
     <section
+      id="hero"
       style={{
         background: '#ffffff',
         borderBottom: '1px solid rgba(15,23,42,0.08)',

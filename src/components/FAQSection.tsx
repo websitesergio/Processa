@@ -29,6 +29,7 @@ export default function FAQSection() {
 
   return (
     <section
+      id="faq"
       style={{
         background: '#f8fafc',
         borderTop: '1px solid rgba(15,23,42,0.06)',

@@ -49,13 +49,13 @@ const BREAKDOWN = [
 
 export default function MathematicsOfSpeed() {
   return (
-    <section className="bg-slate-50 px-6 md:px-16 py-32 md:py-44">
+    <section id="speed" className="bg-slate-50 px-6 md:px-16 py-32 md:py-44">
       <div className="max-w-7xl mx-auto">
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
           <div className="lg:col-span-5">
-            <p className="font-sans font-light text-[10px] uppercase tracking-widest text-blue-700 mb-8">
+            <p className="font-sans font-light text-[10px] uppercase tracking-widest text-slate-700 mb-8">
               The Mathematics of Speed
             </p>
             <h2 className="font-serif font-semibold text-slate-900 leading-[1.06] tracking-tighter text-[clamp(2rem,4vw,3.5rem)] mb-8">
@@ -95,7 +95,7 @@ export default function MathematicsOfSpeed() {
                   className={[
                     'p-8 border',
                     tier.highlight
-                      ? 'bg-blue-700 border-blue-700'
+                      ? 'bg-slate-900 border-slate-900'
                       : 'bg-white border-slate-200',
                   ].join(' ')}
                 >
@@ -104,7 +104,7 @@ export default function MathematicsOfSpeed() {
                       <p
                         className={[
                           'font-sans font-light text-[9px] uppercase tracking-widest mb-1',
-                          tier.highlight ? 'text-blue-200' : 'text-slate-400',
+                          tier.highlight ? 'text-slate-300' : 'text-slate-400',
                         ].join(' ')}
                       >
                         Response Window
@@ -122,7 +122,7 @@ export default function MathematicsOfSpeed() {
                       <p
                         className={[
                           'font-sans font-light text-[9px] uppercase tracking-widest mb-1',
-                          tier.highlight ? 'text-blue-200' : 'text-slate-400',
+                          tier.highlight ? 'text-slate-300' : 'text-slate-400',
                         ].join(' ')}
                       >
                         {tier.label}
@@ -140,7 +140,7 @@ export default function MathematicsOfSpeed() {
                   <p
                     className={[
                       'font-sans font-light text-[11px] leading-relaxed',
-                      tier.highlight ? 'text-blue-200' : 'text-slate-400',
+                      tier.highlight ? 'text-slate-300' : 'text-slate-400',
                     ].join(' ')}
                   >
                     {tier.note}
