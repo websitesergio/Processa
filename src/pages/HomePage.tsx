@@ -3,6 +3,7 @@ import CredibilityStrip from '../components/CredibilityStrip';
 import Calculator from '../components/Calculator';
 import MarketReality from '../components/MarketReality';
 import Process from '../components/Process';
+import FAQSection from '../components/FAQSection';
 import ContactForm from '../components/ContactForm';
 
 export default function HomePage() {
@@ -13,6 +14,7 @@ export default function HomePage() {
       <Calculator />
       <MarketReality />
       <Process />
+      <FAQSection />
       <ContactForm />
     </>
   );

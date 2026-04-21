@@ -77,7 +77,7 @@ export default function Hero() {
             hyphens: 'auto' as const,
           }}
         >
-          Quantify Your Revenue Haemorrhage.
+          AI Patient Acquisition for European Dental Excellence.
         </h1>
 
         {/* Subtitle */}
