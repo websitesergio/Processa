@@ -78,7 +78,7 @@ export default function Hero() {
             hyphens: 'auto' as const,
           }}
         >
-          AI Patient Acquisition for European Dental Excellence.
+          AI-Powered Patient Acquisition for European Dental Excellence.
         </h1>
 
         {/* Subtitle */}

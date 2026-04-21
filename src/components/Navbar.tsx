@@ -56,6 +56,7 @@ export default function Navbar() {
           <Link
             to={onHome ? '#contact' : '/'}
             onClick={handleLogoClick}
+            aria-label="Processa Advisory Official Logo — AI Dental Patient Acquisition Europe"
             style={{
               fontFamily: "'Playfair Display', Georgia, serif",
               fontStyle: 'italic',

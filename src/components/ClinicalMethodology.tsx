@@ -9,125 +9,168 @@ export default function ClinicalMethodology() {
       }}
     >
       <div style={{ maxWidth: '820px', margin: '0 auto' }}>
-        <p
-          style={{
-            fontFamily: 'Inter, system-ui, sans-serif',
-            fontSize: '11px',
-            fontWeight: 500,
-            letterSpacing: '0.26em',
-            textTransform: 'uppercase',
-            color: 'rgba(15,23,42,0.45)',
-            marginBottom: '1rem',
-          }}
-        >
-          Clinical Methodology
-        </p>
 
-        <h2
-          style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
-            fontWeight: 700,
-            fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-            lineHeight: 1.1,
-            letterSpacing: '-0.03em',
-            color: '#0f172a',
-            marginBottom: '2.5rem',
-          }}
-        >
-          The Science Behind Revenue Recovery for High-Ticket Dental Practices
+        <p style={eyebrow}>Clinical Methodology</p>
+
+        <h2 style={sectionTitle}>
+          How Processa Recovers Revenue for European Dental Practices
         </h2>
 
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem',
-            fontFamily: 'Inter, system-ui, sans-serif',
-            fontSize: '1rem',
-            fontWeight: 400,
-            lineHeight: 1.8,
-            color: '#475569',
-          }}
-        >
-          <p>
-            Revenue haemorrhage in elite dental practices is not a marketing
-            problem — it is a systems failure. A high-intent patient searching
-            for full-arch implants or Invisalign treatment has already made a
-            psychological commitment to proceed. What determines whether that
-            patient books with your practice or your competitor is not the
-            quality of your clinical work: it is the speed and confidence of
-            your first response. Research across more than 15,000 B2C service
-            enquiries, including those in elective healthcare, demonstrates that
-            the probability of converting an inbound lead drops by 78% if the
-            initial response is delayed beyond five minutes. At 30 minutes, the
-            lead is statistically lost. Most private dental practices in Europe
-            operate with an average enquiry response time of four to twelve
-            hours.
-          </p>
+        {/* --- H2 Block 1 --- */}
+        <h2 style={h2}>The Physics of Revenue Haemorrhage</h2>
+        <p style={body}>
+          Revenue haemorrhage in private dental practices is not a marketing
+          failure — it is a systems failure operating silently at scale. Every
+          time a high-intent patient submits an enquiry for a Dental Implant,
+          All-on-4, or Invisalign treatment and receives no response within five
+          minutes, the probability of that patient converting drops by 78%.
+          Within 30 minutes, the conversion window has effectively closed. The
+          patient has contacted two or three competing practices, received a
+          response from one of them, and begun the psychological process of
+          committing elsewhere.
+        </p>
+        <p style={body}>
+          For a practice with an average treatment value of £3,500 and 40
+          monthly inbound enquiries, this latency failure translates to a
+          calculable annual revenue loss — typically between £18,000 and
+          £45,000 — that never appears as a line item on any financial report.
+          It is invisible precisely because it represents patients who never
+          booked, not patients who cancelled. Processa's diagnostic model
+          surfaces this figure with specificity: not an estimate, but a
+          data-driven calculation grounded in your practice's own enquiry
+          volume, case mix, and historical response latency.
+        </p>
 
-          <p>
-            Processa quantifies this haemorrhage with precision. By mapping a
-            practice's inbound volume, average response latency, treatment case
-            mix, and historical conversion rate, the diagnostic engine produces
-            a monetised figure — not a percentage, but a specific annual revenue
-            number that is recoverable through infrastructure change alone.
-            For a practice receiving 40 Implant enquiries per month at an
-            average treatment value of £3,500, a reduction in response time
-            from four hours to under 60 seconds typically recovers between
-            £18,000 and £42,000 in annual revenue. The maths is deterministic:
-            more qualified leads converted at the point of highest intent
-            directly reduces patient acquisition cost and improves the return
-            on every pound spent on paid media.
-          </p>
+        {/* --- H2 Block 2 --- */}
+        <h2 style={h2}>Sub-60-Second Lead Routing: The European Industry Standard</h2>
+        <p style={body}>
+          The 60-second response standard is not aspirational — it is the
+          operational threshold at which conversion rates remain commercially
+          viable for high-ticket dental treatments. Research published across
+          multiple elective healthcare and premium service sectors, including
+          data from the Harvard Business Review and MIT Sloan lead-response
+          studies, establishes a consistent finding: lead qualification
+          probability declines by over 400% when first contact exceeds five
+          minutes from the point of enquiry submission.
+        </p>
+        <p style={body}>
+          Processa installs an automated routing layer that eliminates the human
+          bottleneck at the triage stage entirely. When a patient submits an
+          enquiry — through a website contact form, a Google Ads landing page,
+          a Meta lead form, or a social media direct message — the system
+          immediately identifies the treatment type from the submission content,
+          selects the appropriate personalised response template, and dispatches
+          a branded acknowledgement via the patient's preferred channel: SMS,
+          WhatsApp, or email. This entire sequence completes within 60 seconds,
+          24 hours a day, 365 days a year, with no dependency on practice
+          opening hours or coordinator availability. A follow-up task is
+          simultaneously queued for the patient coordinator with the lead's full
+          context, ready for the next working session.
+        </p>
 
-          <p>
-            The 60-second routing standard is not an arbitrary benchmark. It is
-            the point at which the patient's attention window remains fully
-            open, the competing practice has not yet responded, and the
-            psychological momentum of the initial search intent is still active.
-            Processa's automated routing layer receives the enquiry, identifies
-            the treatment type from the submission data, sends a branded and
-            personalised acknowledgement via the patient's preferred channel —
-            SMS, WhatsApp, or email — and queues a follow-up task for the
-            patient coordinator, all within a 60-second SLA. This operates
-            24 hours a day, 365 days a year, without human intervention at the
-            triage stage.
-          </p>
+        {/* --- H2 Block 3 --- */}
+        <h2 style={h2}>GDPR and Dental Data Security in Europe</h2>
+        <p style={body}>
+          Patient enquiry data in Europe is personal data under the EU General
+          Data Protection Regulation (GDPR 2016/679) and, for UK practices,
+          the UK GDPR as retained and amended by the Data Protection Act 2018.
+          Any automated processing of this data — including AI-driven triage,
+          personalised messaging, and CRM logging — requires a documented
+          lawful basis, explicit data subject information, enforced retention
+          limits, and compliance with cross-border transfer rules where
+          applicable.
+        </p>
+        <p style={body}>
+          Processa's infrastructure is built to satisfy these requirements by
+          architectural default, not as an afterthought. All patient data is
+          processed on EU-region servers certified to ISO 27001. Data is
+          encrypted at rest using AES-256 and in transit using TLS 1.3
+          throughout the entire pipeline. Retention schedules are aligned with
+          ICO guidance for healthcare-adjacent data controllers, and no patient
+          data is shared with advertising platforms, sold to data brokers, or
+          used for any purpose outside the defined scope of patient acquisition
+          and retention. Every practice partnership includes a Data Processing
+          Agreement as standard, along with audit-ready documentation for
+          inclusion in the practice's own GDPR compliance records. For EU
+          practices, Processa supports dual-compliance frameworks covering both
+          EU GDPR and applicable national implementing legislation.
+        </p>
 
-          <p>
-            European dental practices face specific regulatory requirements
-            under the EU General Data Protection Regulation (GDPR 2016/679)
-            and, for UK practices, the UK GDPR and Data Protection Act 2018.
-            Patient enquiry data constitutes personal data under both
-            frameworks, and its automated processing requires a clear lawful
-            basis, documented retention periods, and transparent communication
-            to the data subject. Processa's infrastructure is architected to
-            satisfy these requirements by default. All data is processed on
-            EU-region servers, encrypted at rest using AES-256 and in transit
-            using TLS 1.3, and subject to retention schedules aligned with ICO
-            and CNIL guidance. No patient data is shared with third-party
-            advertising platforms or used for profiling outside the defined
-            scope of patient acquisition and retention communications. Every
-            practice receives a Data Processing Agreement as standard.
-          </p>
+        {/* --- H2 Block 4 --- */}
+        <h2 style={h2}>Quantifying Growth: The Mathematics Behind the Calculator</h2>
+        <p style={body}>
+          The Processa revenue calculator is not a marketing tool — it is a
+          diagnostic instrument. It takes four inputs that every practice can
+          verify against their own records: monthly inbound enquiry volume,
+          average treatment value, current response time window, and estimated
+          current conversion rate. From these inputs, it computes the annual
+          revenue that is recoverable through response-time optimisation alone,
+          using a conversion-decay model calibrated against real dental sector
+          data.
+        </p>
+        <p style={body}>
+          The output is intentionally conservative. The model applies a 60%
+          recapture coefficient — meaning it credits only 60% of the
+          theoretical maximum uplift as recoverable, to account for leads that
+          were never genuinely convertible regardless of response speed. This
+          ensures that the figure presented to practice owners is defensible,
+          not optimistic. For most Implant and Invisalign practices operating
+          at standard European market conversion rates, the recoverable revenue
+          figure falls between one and four times the annual cost of
+          implementing the routing infrastructure. The return on investment is
+          structural and compounding: faster response reduces patient
+          acquisition cost, improves paid media efficiency, and builds
+          reputation through consistent patient experience — effects that
+          accumulate across every future month of operation.
+        </p>
 
-          <p>
-            Answer Engine Optimisation (AEO) completes the acquisition
-            architecture. In 2026, the majority of high-intent dental patient
-            journeys begin not with a Google keyword search but with a
-            conversational query to an AI engine — ChatGPT, Google AI
-            Overviews, Perplexity, or Microsoft Copilot. These systems do not
-            return ten blue links; they cite a single authoritative source.
-            Practices that are not structurally recognised as trusted entities
-            by these AI retrieval systems are invisible to the fastest-growing
-            segment of the high-value patient market. Processa builds the
-            semantic schema architecture, entity verification signals, and
-            authoritative content structure that positions a practice for
-            citation — not just ranking — across every major AI search
-            platform operating in the European market.
-          </p>
-        </div>
+        <p style={{ ...body, color: 'rgba(71,85,105,0.6)', fontSize: '0.8125rem', marginTop: '0.5rem' }}>
+          Source references: Harvard Business Review Lead Response Management
+          Study; MIT Sloan Management Review; EU GDPR Regulation 2016/679;
+          UK Data Protection Act 2018; ICO Guidance on Legitimate Interests.
+        </p>
+
       </div>
     </section>
   );
 }
+
+const eyebrow: React.CSSProperties = {
+  fontFamily: 'Inter, system-ui, sans-serif',
+  fontSize: '11px',
+  fontWeight: 500,
+  letterSpacing: '0.26em',
+  textTransform: 'uppercase',
+  color: 'rgba(15,23,42,0.45)',
+  marginBottom: '1rem',
+};
+
+const sectionTitle: React.CSSProperties = {
+  fontFamily: "'Playfair Display', Georgia, serif",
+  fontWeight: 700,
+  fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+  lineHeight: 1.1,
+  letterSpacing: '-0.03em',
+  color: '#0f172a',
+  marginBottom: '2.75rem',
+};
+
+const h2: React.CSSProperties = {
+  fontFamily: "'Playfair Display', Georgia, serif",
+  fontWeight: 700,
+  fontSize: 'clamp(1.125rem, 2.5vw, 1.5rem)',
+  lineHeight: 1.2,
+  letterSpacing: '-0.02em',
+  color: '#0f172a',
+  marginTop: '2.5rem',
+  marginBottom: '0.875rem',
+};
+
+const body: React.CSSProperties = {
+  fontFamily: 'Inter, system-ui, sans-serif',
+  fontSize: '1rem',
+  fontWeight: 400,
+  lineHeight: 1.8,
+  color: '#475569',
+  marginBottom: '1.25rem',
+};
