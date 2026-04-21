@@ -105,14 +105,16 @@ function OptionCard({
         className="option-sublabel"
         style={{
           fontFamily: 'Inter, system-ui, sans-serif',
-          fontSize: '9px',
-          fontWeight: 500,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase' as const,
-          color: selected ? 'rgba(255,255,255,0.55)' : 'rgba(15,23,42,0.4)',
+          fontSize: '10px',
+          fontWeight: 400,
+          letterSpacing: '0.02em',
+          color: selected ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.38)',
           transition: 'color 0.15s ease',
           maxWidth: '100%',
-          lineHeight: 1.3,
+          lineHeight: 1.4,
+          whiteSpace: 'normal' as const,
+          textAlign: 'center' as const,
+          wordBreak: 'break-word' as const,
         }}
       >
         {sublabel}
@@ -165,7 +167,7 @@ export default function Calculator() {
         padding: 'clamp(8rem, 12vw, 10rem) 0',
       }}
     >
-      <style>{`@media (max-width: 400px) { .option-sublabel { display: none !important; } }`}</style>
+      <style>{`@media (max-width: 380px) { .option-sublabel { display: none !important; } }`}</style>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
 
         {/* Section header */}
