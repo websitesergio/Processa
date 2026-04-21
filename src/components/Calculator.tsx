@@ -165,7 +165,7 @@ export default function Calculator() {
         padding: 'clamp(8rem, 12vw, 10rem) 0',
       }}
     >
-      <style>{`@media (max-width: 380px) { .option-sublabel { display: none !important; } }`}</style>
+      <style>{`@media (max-width: 400px) { .option-sublabel { display: none !important; } }`}</style>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 clamp(1rem, 5vw, 2rem)' }}>
 
         {/* Section header */}

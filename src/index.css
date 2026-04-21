@@ -14,9 +14,11 @@
 
   html {
     scroll-behavior: smooth;
-    overflow-x: clip;
+    overflow-x: hidden !important;
     overflow-y: scroll;
-    max-width: 100%;
+    width: 100%;
+    max-width: 100vw;
+    position: relative;
     /* Top overscroll bounce blends with white navbar on iOS */
     background-color: #ffffff;
     overscroll-behavior-y: auto;
@@ -24,8 +26,9 @@
   }
 
   body {
-    overflow-x: clip;
-    max-width: 100%;
+    overflow-x: hidden !important;
+    width: 100%;
+    max-width: 100vw;
     position: relative;
     /* White matches Hero section — top bounce area on iOS is seamless */
     background-color: #ffffff;
@@ -39,16 +42,19 @@
   }
 
   #root {
-    overflow: clip;
+    overflow-x: hidden;
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
     position: relative;
     /* Bottom overscroll bounce extends dark footer colour on iOS */
     background-color: #0f172a;
   }
 
-  h1, h2 {
+  h1, h2, p {
     overflow-wrap: anywhere;
+  }
+
+  h1, h2 {
     hyphens: auto;
     -webkit-hyphens: auto;
   }

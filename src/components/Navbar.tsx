@@ -8,10 +8,10 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   function handleLogoClick(e: React.MouseEvent) {
+    e.preventDefault();
     if (onHome) {
-      e.preventDefault();
-      const el = document.getElementById('contact');
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const el = document.querySelector('#contact') as HTMLElement | null;
+      if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
     } else {
       navigate('/');
     }
