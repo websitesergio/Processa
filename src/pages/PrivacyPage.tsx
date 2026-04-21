@@ -49,7 +49,7 @@ const SECTIONS = [
 
 export default function PrivacyPage() {
   return (
-    <main style={{ background: '#ffffff', minHeight: '100vh' }}>
+    <main style={{ background: '#ffffff', minHeight: '100svh' }}>
 
       {/* Hero */}
       <section
