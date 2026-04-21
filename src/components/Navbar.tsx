@@ -10,8 +10,7 @@ export default function Navbar() {
   function handleLogoClick(e: React.MouseEvent) {
     e.preventDefault();
     if (onHome) {
-      const el = document.querySelector('#contact') as HTMLElement | null;
-      if (el) window.scrollTo({ top: el.offsetTop - 80, behavior: 'smooth' });
+      document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
     } else {
       navigate('/');
     }
